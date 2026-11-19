@@ -3,7 +3,7 @@ import { z } from "zod";
 import { AgentError, runBookAgent } from "@/lib/agent/book-agent";
 import type { AgentStreamEvent } from "@/lib/agent/events";
 import { isAdmin } from "@/lib/auth/guard";
-import { BookContentSchema } from "@/lib/catalog/schema";
+import { ProposalSchema } from "@/lib/catalog/schema";
 import { updateCatalog } from "@/lib/catalog/store";
 
 // Research with web search can take a few minutes.
@@ -13,7 +13,7 @@ const RequestSchema = z.object({
   mode: z.enum(["verify", "draft"]),
   bookId: z.string().nullable(),
   // Drafts start from just a title, so analysis fields may be empty here.
-  content: BookContentSchema.extend({ topics: BookContentSchema.shape.topics.min(0) }),
+  content: ProposalSchema,
   notes: z.string().max(2000).default(""),
 });
 

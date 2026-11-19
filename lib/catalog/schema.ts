@@ -65,6 +65,12 @@ export const BookContentSchema = z.object({
 
 export type BookContent = z.infer<typeof BookContentSchema>;
 
+/**
+ * What the agent proposes. Topics may be empty: "this book doesn't really fit any
+ * of our topics" is a valid finding. The editor still requires one before saving.
+ */
+export const ProposalSchema = BookContentSchema.extend({ topics: z.array(z.enum(TOPIC_IDS)) });
+
 export const AgentReviewSchema = z.object({
   mode: z.enum(["verify", "draft"]),
   verdict: z.enum(["verified", "needs_changes", "not_found"]),
@@ -72,7 +78,7 @@ export const AgentReviewSchema = z.object({
   summary: z.string(),
   issues: z.array(z.string()),
   sources: z.array(z.object({ title: z.string(), url: z.string() })),
-  proposal: BookContentSchema,
+  proposal: ProposalSchema,
   model: z.string(),
   ranAt: z.string(),
 });

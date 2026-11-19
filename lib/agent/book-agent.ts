@@ -5,8 +5,8 @@ import { z } from "zod";
 import {
   type AgentReview,
   type BookContent,
-  BookContentSchema,
   LEVEL_IDS,
+  ProposalSchema,
   LEVELS,
   TOPIC_IDS,
   TOPICS,
@@ -74,7 +74,7 @@ const SubmitInputSchema = z.object({
   summary: z.string(),
   issues: z.array(z.string()),
   sources: z.array(z.object({ title: z.string(), url: z.string() })),
-  proposal: BookContentSchema.extend({ author: z.string() }),
+  proposal: ProposalSchema.extend({ author: z.string() }),
 });
 
 const SYSTEM_PROMPT = `You support the editor of "ספרו לי על זה" (Tell Me About It), a Hebrew bibliotherapy app. It recommends picture books to parents of children aged 3-5 who are going through something hard, and gives the parent questions to ask while reading.
@@ -92,7 +92,7 @@ Each catalog entry describes one real, published children's book:
 Your job is accuracy. A wrong book in front of a frightened child is worse than no book.
 - Use web search to confirm the book exists, who wrote it, and what actually happens in it. Hebrew sources (publisher pages, the National Library of Israel, Simania, book stores) are usually best for Hebrew titles; translated books also have sources in their original language.
 - Never invent plot details. If you cannot confirm something, say so in issues and keep the related text general rather than specific.
-- Only list a topic if the book's real story addresses it. If an entry claims a topic the plot doesn't support, flag it.
+- Only list a topic if the book's real story addresses it. If an entry claims a topic the plot doesn't support, flag it. If the book fits none of the topics, return an empty topics list and explain in issues which situations it does suit.
 - Write all proposal text in natural Hebrew, in the warm, professional style of the existing entries. Keep accurate existing wording rather than rewriting it for its own sake.
 - Mediation questions are for a parent talking to a 3-5 year old: short, concrete, open-ended, never leading or frightening.
 
@@ -146,7 +146,9 @@ export async function runBookAgent(opts: {
         betas: ["server-side-fallback-2026-07-01"],
         fallbacks: "default",
         system: SYSTEM_PROMPT,
-        tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 8 }, submitTool],
+        // The basic web search variant: the newer web_search_20260209 filters results with
+        // code execution, which this organization (HIPAA-configured) doesn't allow.
+        tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8 }, submitTool],
         messages,
       },
       { signal },

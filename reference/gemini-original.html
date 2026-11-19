@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ספרו לי על זה - קסם הביבליותרפיה</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Varela Round (Soft, friendly) & Heebo (Clean reading) -->
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600&amp;family=Varela+Round&amp;display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9333EA',    // Purple 600 - Magic, imagination
+                        primaryLight: '#D8B4FE', // Purple 300
+                        secondary: '#FBBF24',  // Amber 400 - Warmth, sun, joy
+                        background: '#FFFBEB', // Amber 50 - Very warm cream background
+                        surface: '#FFFFFF',    // White for cards
+                        textMain: '#5B21B6',   // Deep purple for text
+                        textDark: '#4C1D95',   // Very deep purple for headings
+                        accentPink: '#F472B6', // Pink 400 - gentle touch
+                        accentBlue: '#38BDF8', // Sky blue - calm
+                        accentGreen: '#34D399' // Emerald - growth
+                    },
+                    fontFamily: {
+                        sans: ['Heebo', 'sans-serif'],
+                        heading: ['Varela Round', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(147, 51, 234, 0.1), 0 8px 10px -6px rgba(147, 51, 234, 0.1)',
+                        'floating': '0 20px 25px -5px rgba(147, 51, 234, 0.15), 0 10px 10px -5px rgba(147, 51, 234, 0.04)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.textMain');
+            scroll-behavior: smooth;
+            /* Subtle clouds background pattern */
+            background-image: radial-gradient(theme('colors.primaryLight') 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: theme('fontFamily.heading');
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .magic-border {
+            position: relative;
+        }
+        .magic-border::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, theme('colors.secondary'), theme('colors.accentPink'));
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 transition-all duration-300 py-3 shadow-sm shadow-md bg-white bg-opacity-95" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="text-primary text-3xl">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <span class="font-heading font-bold text-2xl text-textDark tracking-tight">ספרו לי על זה</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-6 space-x-reverse items-center">
+                    <a href="#vision" class="text-textMain hover:text-primary transition-colors font-medium text-lg">חזון ההורים</a>
+                    <a href="#smart-match" class="text-textMain hover:text-primary transition-colors font-medium text-lg">התאמה חכמה</a>
+                    <a href="#ritual" class="text-textMain hover:text-primary transition-colors font-medium text-lg">טקס הפתיחה</a>
+                    <a href="#heart-keys" class="text-textMain hover:text-primary transition-colors font-medium text-lg">מפתחות הלב</a>
+                    <button class="bg-primary hover:bg-purple-700 text-surface px-6 py-2.5 rounded-full font-bold transition-all shadow-soft text-lg flex items-center gap-2 transform hover:scale-105">
+                        <i class="fas fa-magic"></i> לכניסה לממלכה
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex items-center min-h-[90vh]">
+        <!-- Decorative background elements -->
+        <div class="absolute top-40 right-10 text-primaryLight text-6xl opacity-30 animate-float" style="animation-delay: 0s;"><i class="fas fa-star"></i></div>
+        <div class="absolute top-20 left-20 text-secondary text-5xl opacity-40 animate-float" style="animation-delay: 1s;"><i class="fas fa-sun"></i></div>
+        <div class="absolute bottom-20 right-32 text-accentPink text-4xl opacity-40 animate-float" style="animation-delay: 2s;"><i class="fas fa-heart"></i></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+            
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-surface rounded-full shadow-soft mb-8 animate-bounce text-5xl">
+                🦋
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold text-textDark leading-tight mb-6">
+                ברוכים הבאים לעולם שבו<br>
+                <span class="text-primary magic-border">לכל רגש יש סיפור</span>
+            </h1>
+            
+            <p class="text-xl sm:text-2xl text-textMain mb-10 font-medium max-w-3xl mx-auto leading-relaxed">
+                ולכל סיפור יש מקום בלב. אפליקציה זו נועדה לעזור לכם, ההורים, לתווך לילדיכם עולמות רגשיים מורכבים דרך הקסם של המילה הכתובה והדמיון.
+            </p>
+
+            <button class="bg-secondary hover:bg-yellow-500 text-textDark px-8 py-4 rounded-full font-heading font-bold text-xl shadow-floating transition-all transform hover:-translate-y-1 flex items-center gap-3 mx-auto">
+                <i class="fas fa-book-reader text-2xl"></i> מתחילים לקרוא
+            </button>
+        </div>
+    </section>
+
+    <section id="vision" class="py-20 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 lg:p-12 shadow-soft relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 text-9xl text-primaryLight opacity-10"><i class="fas fa-seedling"></i></div>
+                
+                <h2 class="text-3xl lg:text-4xl font-heading font-bold text-textDark mb-6 flex items-center gap-3">
+                    <span class="text-4xl text-accentGreen">🌱</span> למה לספר סיפור?
+                </h2>
+                
+                <p class="text-lg text-textMain mb-8 leading-relaxed">
+                    בגילאי 3-5, הילדים שלכם עוברים מהפכה רגשית. הם מרגישים הכל בעוצמה, אבל לא תמיד יודעים לקרוא לזה בשם. הביבליותרפיה (ריפוי דרך ספרים) פותחת בפניהם דלת בטוחה:
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-surface p-6 rounded-2xl shadow-sm border border-purple-100 transform transition hover:scale-105">
+                        <div class="w-12 h-12 bg-purple-100 text-primary rounded-full flex items-center justify-center text-xl mb-4">
+                            <i class="fas fa-theater-masks"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-textDark mb-2">השלכה</h3>
+                        <p class="text-textMain">"זה לא אני שמפחד, זה הגיבור בסיפור". קל יותר לדבר על קושי כשהוא קורה למישהו אחר.</p>
+                    </div>
+
+                    <div class="bg-surface p-6 rounded-2xl shadow-sm border border-purple-100 transform transition hover:scale-105">
+                        <div class="w-12 h-12 bg-pink-100 text-accentPink rounded-full flex items-center justify-center text-xl mb-4">
+                            <i class="fas fa-equals"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-textDark mb-2">נרמול</h3>
+                        <p class="text-textMain">"גם הדובי הרגיש ככה, אז זה בסדר". הבנה שהרגשות שלי טבעיים ושכולם חווים אותם.</p>
+                    </div>
+
+                    <div class="bg-surface p-6 rounded-2xl shadow-sm border border-purple-100 transform transition hover:scale-105">
+                        <div class="w-12 h-12 bg-yellow-100 text-secondary rounded-full flex items-center justify-center text-xl mb-4">
+                            <i class="fas fa-toolbox"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl text-textDark mb-2">ארגז כלים</h3>
+                        <p class="text-textMain">למידת פתרונות יצירתיים למצבים יומיומיים דרך התמודדות מוצלחת של הדמויות בסיפור.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="smart-match" class="py-20 bg-white bg-opacity-60 border-y-4 border-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <div class="inline-block bg-primary text-white text-4xl p-4 rounded-full shadow-soft mb-4">
+                    🦉
+                </div>
+                <h2 class="text-4xl font-heading font-bold text-textDark mb-4">הסיפור הנכון בזמן הנכון</h2>
+                <p class="text-xl text-textMain max-w-3xl mx-auto">
+                    המערכת שלנו בוחרת באופן חכם את הספר המדויק ביותר עבור הילד שלכם, בהתבסס על ההתמודדות הנוכחית ועל הניסיון שלו בקריאה.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-10 items-center">
+                
+                <!-- Explanation Text -->
+                <div class="lg:w-1/2 space-y-8">
+                    <div class="bg-surface p-6 rounded-2xl shadow-sm border-r-4 border-accentPink">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-2 flex items-center gap-2">
+                            <i class="fas fa-puzzle-piece text-accentPink"></i> התאמה לנושא או למשבר
+                        </h3>
+                        <p class="text-textMain text-lg leading-relaxed">
+                            בין אם מדובר בשינוי שגרתי או במשבר חיים מורכב, האלגוריתם שלנו יאתר סיפור שנוגע בדיוק בנקודה הנכונה. אנו תומכים במגוון רחב של נושאים: מעבר דירה, התמודדות עם מחלה או ניתוח (של הילד או קרוב משפחה), מוות ופציעות, גירושין, דחייה חברתית ועוד.
+                        </p>
+                    </div>
+
+                    <div class="bg-surface p-6 rounded-2xl shadow-sm border-r-4 border-secondary">
+                        <h3 class="font-heading font-bold text-2xl text-textDark mb-2 flex items-center gap-2">
+                            <i class="fas fa-layer-group text-secondary"></i> התאמה לניסיון הקריאה
+                        </h3>
+                        <p class="text-textMain text-lg leading-relaxed">
+                            סיפור טוב צריך להתאים ליכולת ההקשבה של הילד. המערכת מתאימה את אורך הטקסט ומורכבות השפה על פי הניסיון הקודם שלו:
+                        </p>
+                        <ul class="mt-4 space-y-2 text-textMain font-medium">
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> מנוסה מאוד - מסוגל להקשיב לסיפורים ארוכים ומורכבים.</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> מקריאים לו לעיתים רחוקות - סיפורים באורך בינוני עם איורים מרובים.</li>
+                            <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> חסר ניסיון - טקסטים קצרים, פשוטים וממוקדים, עם דגש על ויזואליה.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Interactive Mockup Form -->
+                <div class="lg:w-1/2 w-full">
+                    <div class="glass-card p-8 rounded-3xl shadow-floating relative border-4 border-white">
+                        <div class="absolute -top-5 -right-5 bg-secondary text-textDark font-bold py-1 px-4 rounded-full shadow-md transform rotate-12">
+                            הדגמה
+                        </div>
+                        
+                        <form class="space-y-6">
+                            <div>
+                                <label class="block text-lg font-heading font-bold text-textDark mb-2">מה מעסיק את הילד כעת?</label>
+                                <select class="w-full p-4 rounded-xl border-2 border-purple-200 bg-white text-textMain focus:outline-none focus:border-primary text-lg appearance-none cursor-pointer">
+                                    <option>מעבר דירה לגן חדש</option>
+                                    <option>התמודדות עם מחלה/ניתוח</option>
+                                    <option>גירושין או פרידה של הורים</option>
+                                    <option>דחייה חברתית או מריבה עם חבר</option>
+                                    <option>התמודדות עם אובדן</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-lg font-heading font-bold text-textDark mb-2">מה ניסיון הקריאה שלו?</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <label class="border-2 border-purple-200 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition">
+                                        <input type="radio" name="exp" class="hidden">
+                                        <span class="text-3xl mb-1">📚</span>
+                                        <span class="text-sm font-bold text-center">מנוסה מאוד</span>
+                                    </label>
+                                    <label class="border-2 border-primary bg-purple-50 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer transition shadow-inner">
+                                        <input type="radio" name="exp" checked="" class="hidden">
+                                        <span class="text-3xl mb-1">📖</span>
+                                        <span class="text-sm font-bold text-center">לעיתים רחוקות</span>
+                                    </label>
+                                    <label class="border-2 border-purple-200 rounded-xl p-3 flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 transition">
+                                        <input type="radio" name="exp" class="hidden">
+                                        <span class="text-3xl mb-1">📗</span>
+                                        <span class="text-sm font-bold text-center">חסר ניסיון</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="button" class="w-full bg-primary hover:bg-purple-700 text-white font-heading font-bold text-xl py-4 rounded-xl transition shadow-md flex justify-center items-center gap-2">
+                                <i class="fas fa-search"></i> מצא את הספר המושלם
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="ritual" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="inline-block mb-6 relative">
+                <div class="w-24 h-24 bg-surface rounded-full flex items-center justify-center shadow-soft text-6xl relative z-10">
+                    🐻
+                </div>
+                <!-- Breathing animation circles -->
+                <div class="absolute top-0 left-0 w-24 h-24 bg-purple-200 rounded-full animate-ping opacity-75" style="animation-duration: 3s;"></div>
+            </div>
+            
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold text-textDark mb-6">טקס הפתיחה: מתכוננים לקסם</h2>
+            <p class="text-xl text-textMain mb-10 max-w-2xl mx-auto">
+                מומלץ ליצור "טקס" קבוע בכל פעם שפותחים את האפליקציה, כדי לאותת לילד שמתחיל זמן מיוחד של קשב ורוגע.
+            </p>
+
+            <div class="glass-card rounded-3xl p-8 lg:p-10 text-right shadow-soft relative text-lg lg:text-xl text-textMain leading-loose italic">
+                <i class="fas fa-quote-right text-4xl text-primaryLight absolute top-6 right-6 opacity-50"></i>
+                "שלום חבר קטן! ברוך הבא לממלכת הסיפורים.<br>
+                לפני שנפתח את הספר הקסום שלנו, בוא נעשה משהו קטן יחד:<br>
+                תניח יד אחת על הלב... אתה מרגיש אותו דופק? <br>
+                עכשיו, קח נשימה עמוקה כמו שואב אבק... <span class="text-accentBlue text-2xl">💨</span><br>
+                ותוציא אותה לאט כמו רוח נושבת... <span class="text-accentBlue text-2xl">🍃</span><br>
+                יופי! עכשיו הלב שלנו מוכן להקשיב."
+            </div>
+        </div>
+    </section>
+
+    <section id="heart-keys" class="py-20 bg-white bg-opacity-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-heading font-bold text-textDark mb-4">בחירת "מפתח הלב"</h2>
+                <p class="text-xl text-textMain max-w-2xl mx-auto">
+                    במקום תפריט מורכב, תנו לילד לבחור את האייקון שמשקף את הרגש הנוכחי שלו, כדי להתאים עבורו את האווירה הנכונה.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-surface p-8 rounded-3xl shadow-soft text-center cursor-pointer transform transition hover:-translate-y-2 border-b-4 border-secondary group">
+                    <div class="text-6xl mb-4 group-hover:animate-spin-slow">☀️</div>
+                    <h3 class="font-heading font-bold text-xl text-textDark mb-2">שמש מחייכת</h3>
+                    <p class="text-textMain font-medium">"אני מרגיש שמח ורוצה לחגוג!"</p>
+                </div>
+
+                <div class="bg-surface p-8 rounded-3xl shadow-soft text-center cursor-pointer transform transition hover:-translate-y-2 border-b-4 border-accentBlue group">
+                    <div class="text-6xl mb-4 group-hover:animate-bounce">🌧️</div>
+                    <h3 class="font-heading font-bold text-xl text-textDark mb-2">ענן עם גשם</h3>
+                    <p class="text-textMain font-medium">"משהו קצת עצוב לי היום."</p>
+                </div>
+
+                <div class="bg-surface p-8 rounded-3xl shadow-soft text-center cursor-pointer transform transition hover:-translate-y-2 border-b-4 border-red-400 group">
+                    <div class="text-6xl mb-4 group-hover:animate-pulse">⚡</div>
+                    <h3 class="font-heading font-bold text-xl text-textDark mb-2">ברק אדום</h3>
+                    <p class="text-textMain font-medium">"אני מרגיש כועס מאוד!"</p>
+                </div>
+
+                <div class="bg-surface p-8 rounded-3xl shadow-soft text-center cursor-pointer transform transition hover:-translate-y-2 border-b-4 border-indigo-400 group">
+                    <div class="text-6xl mb-4">🌙</div>
+                    <h3 class="font-heading font-bold text-xl text-textDark mb-2">ירח מנצנץ</h3>
+                    <p class="text-textMain font-medium">"אני רוצה להירגע לפני השינה."</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-12">
+                
+                <!-- Mediation Tips -->
+                <div class="lg:w-1/2">
+                    <div class="bg-purple-50 p-8 rounded-3xl border border-purple-100 h-full">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="text-3xl text-primary"><i class="fas fa-lightbulb"></i></div>
+                            <h2 class="text-2xl font-heading font-bold text-textDark">איך לדבר על זה? (הנחיות להורה)</h2>
+                        </div>
+                        <p class="text-textMain mb-6">
+                            במהלך הקריאה, יופיעו בועות קטנות להורה שיעזרו לכם לתווך את הסיפור:
+                        </p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex gap-4 bg-surface p-4 rounded-xl shadow-sm">
+                                <div class="text-2xl text-accentPink mt-1">🛑</div>
+                                <div>
+                                    <h4 class="font-heading font-bold text-textDark text-lg">עצרו רגע</h4>
+                                    <p class="text-textMain">"מה אתם חושבים שהארנב מרגיש עכשיו?"</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 bg-surface p-4 rounded-xl shadow-sm">
+                                <div class="text-2xl text-accentBlue mt-1">🔗</div>
+                                <div>
+                                    <h4 class="font-heading font-bold text-textDark text-lg">חברו למציאות</h4>
+                                    <p class="text-textMain">"גם לך קרה פעם שהרגשת שאתה רוצה לצעוק חזק כמוהו?"</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 bg-surface p-4 rounded-xl shadow-sm">
+                                <div class="text-2xl text-secondary mt-1">✨</div>
+                                <div>
+                                    <h4 class="font-heading font-bold text-textDark text-lg">סוף פתוח</h4>
+                                    <p class="text-textMain">"מה לדעתך יקרה מחר בבוקר בסיפור?"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Outro Box -->
+                <div class="lg:w-1/2 flex items-center">
+                    <div class="glass-card rounded-3xl p-10 text-center w-full shadow-floating border-4 border-white">
+                        <div class="text-6xl mb-6">🌟</div>
+                        <h2 class="text-3xl font-heading font-bold text-textDark mb-6">מסר סיום ופרידה</h2>
+                        <p class="text-2xl text-textMain leading-relaxed font-heading">
+                            "תודה שביקרתם בממלכה שלנו. <br>
+                            הסיפור נגמר, אבל הוא נשאר איתכם בלב לכל היום. <br>
+                            חיבוק גדול, ונתראה בסיפור הבא!"
+                        </p>
+                        
+                        <button id="startJourneyBtn" class="mt-10 bg-primary hover:bg-purple-700 text-white px-8 py-3 rounded-full font-bold transition-colors shadow-md text-lg transform hover:scale-105">
+                            הירשמו והתחילו את המסע
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="library-database" class="hidden py-20 bg-background border-t-4 border-dashed border-primaryLight transition-all duration-1000 opacity-0 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full shadow-soft mb-6 text-4xl">
+                    📚
+                </div>
+                <h2 class="text-4xl font-heading font-bold text-textDark mb-4">הספרייה החכמה: מעברים והתחלות חדשות</h2>
+                <p class="text-xl text-textMain max-w-3xl mx-auto">
+                    דוגמה למאגר הספרים שלנו להתמודדות עם מעבר דירה או כניסה לגן חדש. כל ספר מנותח באופן פסיכו-פדגוגי להתאמה מושלמת.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6" id="books-grid">
+                <!-- Book 1 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>1. הבית של יעל (מרים רות)</span>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא פחות מנוסה</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                        <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> קצב מעגלי וחזרתיות מאפשרים לילד להשלים משפטים ("יעל מחפשת בית...").</li>
+                                <li><b>אוצר מילים:</b> שימוש בולט בהפכים מרחביים (גדול/קטן, בפנים/בחוץ) המקנים ביטחון.</li>
+                                <li><b>טיפוגרפיה פעילה:</b> המילים המתארות מציאה מוגדלות ודורשות קריאה בקול שמח וגבוה.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> יעל צריכה מרחב אישי המותאם למידותיה בסביבה משתנה.</li>
+                                <li><b>המניע:</b> חיפוש אחר עצמאות, שליטה ותחושת מוגנות במעבר.</li>
+                                <li><b>הטוויסט:</b> הבית המושלם מתגלה כארגז ישן ולא כמבנה קונבנציונלי.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "אני יכולה ליצור לעצמי מקום בטוח בכל סביבה חדשה."</li>
+                                <li><b>התמודדות עם פחד:</b> התנסות אמיצה בחיפוש במקומות שונים (שולחן, סל) עד למציאת הפתרון.</li>
+                                <li><b>תוצאה לא צפויה:</b> המבוגרים מקבלים את הארגז כבית, גישור בין עולם הדמיון של הילד למציאות.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>איורים הממחישים באופן ברור את פערי הגודל (יעל הקטנה מול הריהוט הגדול), ומסייעים לילד להבין את חווית ההתגמדות במקום חדש.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איפה המחבוא הסודי שלך כשאתה רוצה להיות קצת לבד?"</strong><br><span class="text-textMain font-normal">השאלה מעודדת את הילד לאתר לעצמו 'אי של שקט' במרחב החדש (הבית או הגן).</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איך יעל הרגישה כשלא מצאה מיד בית שמתאים לה בדיוק?"</strong><br><span class="text-textMain font-normal">מנרמלת את תחושת התסכול והבלבול בתחילתו של כל תהליך הסתגלות.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה לדעתך יעל הרגישה בבטן כשכולם אמרו לה לצאת ממקומות המחבוא שניסתה?"</strong><br><span class="text-textMain font-normal">עוזר לילד לחבר תחושות גופניות לרגשות של תסכול ודחייה.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"אם היית יכול לעזור ליעל לקשט את הקרטון שלה, מה היית מצייר לה שם?"</strong><br><span class="text-textMain font-normal">מחזיר לילד תחושת שליטה ויצירתיות, שהן 'תרופות' טבעיות נגד חרדת שינויים.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"למה כל כך חשוב שלכל אחד יהיה מקום שהוא רק שלו?"</strong><br><span class="text-textMain font-normal">נותן לגיטימציה מלאה לצורך בפרטיות ושקט בתוך המולה של מעבר דירה או הסתגלות לגן.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Book 2 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>2. דירה להשכיר (לאה גולדברג)</span>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא מנוסה מאוד</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                        <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> חריזה מדויקת ומשקל קצבי עשיר המייצר תבניות זיכרון מצוינות.</li>
+                                <li><b>אוצר מילים:</b> משלב לשוני גבוה יחסית עם דימויים עשירים התורמים להתפתחות השפה.</li>
+                                <li><b>טיפוגרפיה פעילה:</b> שאלות החוזרות ("הנאה החדר בעיניך?") מזמינות הקראה אינטראקטיבית ודיאלוגית.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> מעבר דירה מחייב בחירת סביבה חברתית ושכנים.</li>
+                                <li><b>המניע:</b> הצורך להשתייך לקהילה נעימה ומקבלת.</li>
+                                <li><b>הטוויסט:</b> היונה מוכנה להתפשר על החדר כי השכנים טובים בעיניה.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "האנשים שסביבי חשובים יותר מהמבנה הפיזי."</li>
+                                <li><b>התמודדות עם פחד:</b> מפגש עם דמויות (חיות) שונות וזרות ובחינתן בביקורתיות לגיטימית.</li>
+                                <li><b>תוצאה לא צפויה:</b> פתרון ניגודים - יצירת שפה משותפת דווקא מתוך שונות גדולה של הדיירים.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>איורים שממחישים את הדינמיקה והסטריאוטיפים של החיות, עוזרים לילד להבין את יחסי הכוחות בבניין (בחברה).</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מי מהשכנים בבניין הכי מצא חן בעיניך? עם מי היית רוצה לשחק?"</strong><br><span class="text-textMain font-normal">מכוון את הילד לאיתור 'נקודות אור' ודמויות חיוביות בחברה החדשה.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"האם קרה לך פעם שפגשת ילד שונה ממך בגן ובכל זאת הפכתם לחברים?"</strong><br><span class="text-textMain font-normal">מנרמל שונות חברתית ועוזר בקבלת פנים חדשות במסגרת.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה לדעתך החזיר הרגיש כשהתרנגולת צחקה עליו?"</strong><br><span class="text-textMain font-normal">פיתוח אמפתיה לעלבון של האחר והבנת ההשפעה של מילים פוגעניות.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"האם קרה לך שפחדת ממישהו חדש בגן ואחר כך גילית שהוא נחמד?"</strong><br><span class="text-textMain font-normal">שבירת סטיגמות והתמודדות עם פחד מאנשים או מצבים לא מוכרים.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה הופך את היונה לשכנה כל כך טובה למרות שכולם שונים ממנה?"</strong><br><span class="text-textMain font-normal">מודלינג לגישור, ראיית הטוב בזולת וסובלנות ככלי להשתלבות חברתית בטוחה.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Book 3 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>3. ברל'ה ברל'ה צא החוצה (פנינה קז)</span>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא מתחיל</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                        <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> מבוסס על שיר ילדים מוכר, מקנה תחושת ביטחון מידית.</li>
+                                <li><b>אוצר מילים:</b> פשוט, יומיומי ומוחשי. הפכים של פנים/חוץ, הסתתרות/חשיפה.</li>
+                                <li><b>טיפוגרפיה פעילה:</b> קריאה משותפת של שם הספר דורשת הרמת קול כקריאה לחילזון לצאת.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> קושי לצאת מהמקום המוכר (הקונכייה) לעולם הגדול (כמו יציאה לגן).</li>
+                                <li><b>המניע:</b> סקרנות טבעית מול צורך במוגנות הרמטית.</li>
+                                <li><b>הטוויסט:</b> החילזון מגלה שהבית תמיד איתו, לא משנה לאן ילך.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "הביטחון של הבית (ההורים) הולך איתי גם כשאני יוצא לגן."</li>
+                                <li><b>התמודדות עם פחד:</b> יציאה הדרגתית, הוצאת מחושים, התנסות איטית בלא-מוכר.</li>
+                                <li><b>תוצאה לא צפויה:</b> השלמה עם כך שאפשר להיות בחוץ ועדיין להרגיש בבית.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>צבעים רכים המדגישים את הניגוד בין הקונכייה הסגורה לעולם המזמין שבחוץ.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה לדעתך נתן לברל'ה את האומץ להוציא את המחושים בסוף?"</strong><br><span class="text-textMain font-normal">מחבר את הילד לחיפוש מוקדי כוח פנימיים וחיצוניים (סקרנות, מבוגר תומך).</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מתי גם אתה מרגיש לפעמים שאתה רוצה להתחבא בתוך 'הקונכייה' ולא לצאת?"</strong><br><span class="text-textMain font-normal">מתן לגיטימציה לצורך בהסתגרות ואי-רצון לשתף פעולה במצבי לחץ.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איך הגוף שלך מרגיש כשאתה מנסה משהו חדש שקצת מפחיד אותך?"</strong><br><span class="text-textMain font-normal">חיזוק הקשר גוף-נפש וזיהוי ביטויים פיזיים של חרדה והתרגשות.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה עזר לברל'ה להרגיש בטוח גם כשהתרחק מהאזור המוכר לו?"</strong><br><span class="text-textMain font-normal">חקירה אקטיבית של עוגנים ומשאבי תמיכה (למשל: הבאת צעצוע מהבית לגן).</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"אם היית פוגש אותו כשהתחבא בתוך הקונכייה, מה היית לוחש לו לעידוד?"</strong><br><span class="text-textMain font-normal">עידוד שיח פנימי חיובי ומרגיע שהילד יכול מאוחר יותר להפנות כלפי עצמו.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Book 4 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>4. ילד קטן הלך לגן (יצחק קצנלסון)</span>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא פחות מנוסה</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                        <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> קצב שיר הלכת מניע לפעולה, עוזר לילד לצעוד פסיכולוגית לעבר הגן.</li>
+                                <li><b>אוצר מילים:</b> שימוש במושגי פרידה וחזרה, הקניית מושגי זמן ("בבוקר", "אחר הצהריים").</li>
+                                <li><b>טיפוגרפיה פעילה:</b> הדגשת הפעלים (הלך, אמר, חזר) לסימון תהליך אקטיבי של הילד.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> ניתוק מההורה וכניסה למסגרת חדשה בבוקר.</li>
+                                <li><b>המניע:</b> הרצון לגדול, ללמוד ולהיות חלק מקבוצת השווים.</li>
+                                <li><b>הטוויסט:</b> הגן אינו מקום של נטישה, אלא מקום של פעילות שאחריה באה פגישה מחודשת.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "אמא/אבא תמיד חוזרים בסוף היום." (קביעות אובייקט).</li>
+                                <li><b>התמודדות עם פחד:</b> נרמול בכי הפרידה והכרה בכך שהוא זמני וחולף.</li>
+                                <li><b>תוצאה לא צפויה:</b> הגילוי שיש בגן עולם שלם של עניין שמסיח את הדעת מעצב הפרידה.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>מדגישים את שעון הזמן ואת המעבר מחושך (חשש) לאור (שמחה במשחק משותף).</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה הדבר שהילד הכי אהב לעשות בגן עם החברים שלו?"</strong><br><span class="text-textMain font-normal">מיקוד בציפייה חיובית לקראת הגן והנאה מפעילות חברתית.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מי תמיד בא לקחת אותך בסוף היום, ממש כמו בסיפור?"</strong><br><span class="text-textMain font-normal">חיזוק תחושת 'קביעות האובייקט' והוודאות המוחלטת שההורה תמיד חוזר.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איך נראה הפרצוף של הילד כשאמא הלכה, ואיך נראה כשהיא חזרה?"</strong><br><span class="text-textMain font-normal">זיהוי חזותי ושיום של רגשות משתנים מתוך הבנה שהעצב הוא זמני.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"כשאתה קצת מתגעגע אלי בגן, מה עוזר לך להרגיש יותר טוב?"</strong><br><span class="text-textMain font-normal">איתור משותף של אסטרטגיות התמודדות פרקטיות בזמן אמת לפרידה.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"ספר לי על משהו אחד מצחיק או משמח שקרה לך היום בגן."</strong><br><span class="text-textMain font-normal">יצירת נרטיב של חוויות חיוביות כמנגנון המסייע לריכוך חרדות.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                
+                <!-- Book 5 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>5. עוברים דירה (אלונה פרנקל)</span>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא מנוסה מאוד</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                         <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> טקסט פרוזאי ריאליסטי המשדר עובדות, משקל מאוזן שמרגיע תחושת כאוס.</li>
+                                <li><b>אוצר מילים:</b> אוצר מילים פונקציונלי ("ארגזים", "משאית", "לפרוק"), המקנה לילד שפה לשלוט במצב.</li>
+                                <li><b>טיפוגרפיה פעילה:</b> שמות החדרים והחפצים מודגשים ליצירת מיקוד קוגניטיבי.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> תהליך פירוק הבית המוכר והמעבר אל הלא נודע.</li>
+                                <li><b>המניע:</b> הרצון להבין מה קורה לחפצים שלי ולאן הם נעלמים.</li>
+                                <li><b>הטוויסט:</b> מה שנראה כ"היעלמות" של צעצועים הוא בעצם העברה בטוחה שלהם למקום חדש.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "הסדר נשמר גם כשהכל בתוך ארגזים."</li>
+                                <li><b>התמודדות עם פחד:</b> תהליך האריזה מתואר כמשחק משימתי ולא כמשבר אובדן.</li>
+                                <li><b>תוצאה לא צפויה:</b> החדר החדש מתגלה כמזמין יותר מהישן, התחדשות שמביאה שמחה.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>תיאור ריאליסטי ומפורט של תהליך האריזה, מאפשר לילד "להתכונן" ויזואלית לבלגן שייווצר בביתו.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איזה צעצוע היית רוצה לארוז בעצמך בארגז כדי שיהיה איתך בדירה החדשה?"</strong><br><span class="text-textMain font-normal">החזרת תחושת השליטה לידיים של הילד בתוך תהליך המעבר המבולגן.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"מה לדעתך הילד בסיפור הרגיש כשהוא ראה את החדר החדש שלו?"</strong><br><span class="text-textMain font-normal">פתיחת צוהר לתקווה, ציפייה חיובית והתחדשות.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"האם זה קצת מפחיד לראות פתאום את כל הבית שלנו בתוך ארגזים? למה?"</strong><br><span class="text-textMain font-normal">מתן מקום ולגיטימציה לתחושת הכאוס וחוסר הוודאות בסביבה המוכרת.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"איך נדע למצוא את הדברים שלנו בדירה החדשה אם הכל סגור?"</strong><br><span class="text-textMain font-normal">עידוד חשיבה לוגית ומסודרת (כתיבה על ארגזים) כדרך להפחתת חרדה.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"כשנגיע לדירה החדשה, מה הדבר הראשון שתרצה שנעשה יחד בחדר שלך?"</strong><br><span class="text-textMain font-normal">תכנון אקטיבי ומייצר ציפייה המעניק תחושת ביטחון ורציפות רגשית.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- Book 6 -->
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>6. הארגזים של ענת (ספרות מתפתחת)</span>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full whitespace-nowrap">קורא פחות מנוסה</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                         <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>חריזה ומשקל:</b> שימוש בחזרות רבות ("ארגז אחד למשחקים, ארגז אחד לבגדים") התורמות לתחושת סדר.</li>
+                                <li><b>אוצר מילים:</b> שימוש במילות מיון קטגוריאלי שעוזרות לויסות רגשי של הילד דרך ארגון מידע.</li>
+                                <li><b>טיפוגרפיה פעילה:</b> מספרי הארגזים מופיעים בגדול בתוך הטקסט, לחיזוק הלמידה החזותית.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>הבעיה:</b> תחושת חוסר האונים כשכל הבית נארז בקרטונים זהים וסגורים.</li>
+                                <li><b>המניע:</b> הרצון לגונן על "חפץ המעבר" האישי (למשל דובי) ולא לתת לו להיעלם בארגז.</li>
+                                <li><b>הטוויסט:</b> הארגז הריק האחרון משמש כאוניית דמיון שמפליגה לדירה החדשה.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li><b>קול פנימי:</b> "אני יכולה להפוך מצב מפחיד (אריזה) להרפתקה של דמיון."</li>
+                                <li><b>התמודדות עם פחד:</b> התמודדות עם חרדת הנטישה של החפצים על ידי השארת חפץ אחד קרוב לגוף.</li>
+                                <li><b>תוצאה לא צפויה:</b> הארגזים שסימלו פרידה הופכים לצעצועים בעצמם.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>מעבר מסקאלת צבעים חומה (ארגזים) לצבעים עזים כשענת מתחילה לדמיין את הארגזים כטירות וספינות.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentPink mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"אם היה לך עכשיו ארגז קרטון ריק וגדול, למה היית הופך אותו?"</strong><br><span class="text-textMain font-normal">עידוד סובלימציה ושימוש בדמיון ככלי מעשי להתמודדות עם כאוס וחרדה.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentBlue mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"למה ענת שמרה על הדובי שלה קרוב קרוב אליה כל הזמן?"</strong><br><span class="text-textMain font-normal">מתן לגיטימציה עמוקה לצורך בביטחון והיאחזות בחפצי מעבר.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-secondary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"למה הארגז נראה פתאום לענת כמו ספינה גדולה בים?"</strong><br><span class="text-textMain font-normal">הבנת כוחו של המשחק והדמיון ככלי לבריחה בריאה וויסות רגשי תקין.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-accentGreen mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"אם היית הקברניט של הספינה הזו, לאן היית לוקח אותנו?"</strong><br><span class="text-textMain font-normal">מתן תחושת חופש, בחירה ושליטה בתוך סיטואציה כפויה של מעבר.</span></p>
+                                </div>
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle text-primary mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>"האם קרה לך שהשתעממת או דאגת, ופתאום מצאת משחק שהשכיח הכל?"</strong><br><span class="text-textMain font-normal">חיזוק מודעות הילד לכוחות הריפוי העצמיים והטבעיים שלו.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- I will generate 14 more hidden summary tags via JS to keep the document concise but fully functional and complete as requested -->
+                
+            </div>
+            
+            <div class="mt-8 text-center">
+                <button id="showMoreBooksBtn" class="text-primary font-bold hover:text-purple-800 transition underline decoration-2 underline-offset-4">
+                    הצג את כל 20 הספרים המנותחים (טעינה מדורגת) <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary pt-12 pb-8 text-white relative overflow-hidden">
+        <!-- Decorative cloud -->
+        <div class="absolute -top-10 left-10 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
+        <div class="absolute top-20 right-20 w-40 h-40 bg-secondary opacity-20 rounded-full blur-2xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="text-4xl mb-4"><i class="fas fa-book-open"></i></div>
+            <h2 class="text-2xl font-heading font-bold mb-6">ספרו לי על זה</h2>
+            <div class="flex justify-center gap-6 mb-8 text-primaryLight">
+                <a href="#" class="hover:text-white transition"><i class="fab fa-facebook text-2xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fas fa-envelope text-2xl"></i></a>
+            </div>
+            <p class="text-primaryLight text-sm font-medium">
+                © 2024 ספרו לי על זה. פותח באהבה למען הילדים וההורים.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll shadow effect for navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    navbar.classList.add('shadow-md', 'bg-white', 'bg-opacity-95');
+                    navbar.classList.remove('glass-card');
+                } else {
+                    navbar.classList.remove('shadow-md', 'bg-white', 'bg-opacity-95');
+                    navbar.classList.add('glass-card');
+                }
+            });
+
+            // Journey button logic - reveal the database
+            document.getElementById('startJourneyBtn').addEventListener('click', function() {
+                const dbSection = document.getElementById('library-database');
+                dbSection.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    dbSection.classList.remove('opacity-0');
+                    dbSection.classList.add('opacity-100');
+                    dbSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            });
+
+            // Data for the remaining 14 books to complete the 20 books list
+            const remainingBooks = [
+                { title: "7. התיק של רוני (גן חדש)", level: "קורא פחות מנוסה", levelColor: "green",
+                  linguistic: ["<b>חריזה ומשקל:</b> שימוש במשפטים קצרים ומקוטעים המדמים נשימות קצרות של לחץ שמתחלפות לזרימה בהמשך.", "<b>אוצר מילים:</b> מילים המבטאות שייכות (שלי, לי, איתי).", "<b>טיפוגרפיה פעילה:</b> סימני שאלה מוגדלים כשהתיק נעלם לרגע מטווח הראייה."],
+                  thematic: ["<b>הבעיה:</b> חרדת נטישה בכניסה למבנה גן חדש ולא מוכר.", "<b>המניע:</b> היאחזות בחפץ מעבר מהבית (תיק/דובי) המקשר לעוגן הבטוח.", "<b>הטוויסט:</b> ילד אחר מבקש להכניס משחק לתיק של רוני, התיק הופך מגורם מפריד למחבר."],
+                  psych: ["<b>קול פנימי:</b> 'חלק מהבית נמצא איתי גם פה, אז אני מוגן.'", "<b>התמודדות עם פחד:</b> הסכמה הדרגתית לפתוח את התיק ולשתף את עולמו הפנימי עם הגן.", "<b>תוצאה לא צפויה:</b> יצירת קשר חברתי סביב 'חפץ המגן' שלו."],
+                  visuals: "התיק מאויר בצבע זוהר שמושך את העין בכל עמוד, נותן עוגן ויזואלי להורה ולילד.",
+                  mediation: [
+                      { q: '"מה יש בתיק של רוני שעוזר לו להרגיש בטוח?"', exp: "מסייע לילד לזהות ולהיאחז בחפץ המעבר שלו במציאות." },
+                      { q: '"מה היית שם בתיק שלך כדי שישמור עליך מחר בבוקר בגן?"', exp: "הופך את חווית הפרידה לאקטיבית ונשלטת על ידי הילד." },
+                      { q: '"מה לדעתך התיק שומר לרוני בתוך הבטן שלו?"', exp: "חיבור הילד לרגשות ולהגנות שמוכמנים בחפצי מעבר אישיים." },
+                      { q: '"האם גם אתה מחביא קצת אומץ בכיס כשאתה הולך בבוקר?"', exp: "המחשת כוחות נפש בלתי נראים כדבר ממשי שניתן לשאת בכיס." },
+                      { q: '"איך רוני הרגיש כשהילד השני רצה להכניס משחק לתיק שלו?"', exp: "בחינת הגבולות בין פרטיות רגשית לשיתוף ומשחק חברתי." }
+                  ] 
+                },
+                { title: "8. מפלצת בחדר החדש (מרסר מאייר)", level: "קורא מתחיל", levelColor: "yellow",
+                  linguistic: ["<b>חריזה ומשקל:</b> ללא חריזה. טקסט פשוט מבוסס על אקשן ופעלים קצרים.", "<b>אוצר מילים:</b> שימוש במילות רעש והפחדה (בום, טראח, צללים, חושך) לצד מילות הרגעה.", "<b>טיפוגרפיה פעילה:</b> טקסטים המדמים רעשים בלילה מודפסים בפונט כבד ורועד."],
+                  thematic: ["<b>הבעיה:</b> קשיי שינה בלילה הראשון בדירה חדשה ומרחב לא מוכר.", "<b>המניע:</b> רצון לשלוט במרחב ולהפוך את החדר החדש ל'שלו'.", "<b>הטוויסט:</b> הילד יוזם ציד מפלצות ומגלה שה'מפלצת' היא פשוט הצל של הצעצוע החדש שלו."],
+                  psych: ["<b>קול פנימי:</b> 'הפחדים שלי מובנים, אבל אני יכול לבדוק ולנצח אותם.'", "<b>התמודדות עם פחד:</b> עימות ישיר ומשחקי עם הפחד מהחושך במקום התעלמות ממנו.", "<b>תוצאה לא צפויה:</b> החדר החדש הופך למגרש משחקים הרפתקני במקום מקום מאיים."],
+                  visuals: "משחקי אור וצל באיורים, ממחישים כיצד הדמיון מגדיל דברים בחושך בדירה לא מוכרת.",
+                  mediation: [
+                      { q: '"מה היית אומר למפלצת אם היית פוגש אותה בחדר שלך?"', exp: "מעודד עימות אקטיבי ומשחקי עם הפחד במקום הימנעות ובריחה." },
+                      { q: '"איך הצללים בחדר השתנו כשהוא הדליק אור?"', exp: "תרגול של הבחנה קוגניטיבית חזותית בין דמיון (פחד) למציאות אובייקטיבית." },
+                      { q: '"מה לדעתך המפלצת הייתה אומרת אם היא הייתה יודעת לדבר?"', exp: "השלכה של הקול הפנימי המפוחד של הילד על גורם חיצוני בסיפור." },
+                      { q: '"איזה צלילים מיוחדים יש בבית החדש שלנו שעוד לא התרגלנו אליהם?"', exp: "פירוק גורמי פחד טבעיים למרכיבים יומיומיים לא מזיקים (מקרר, חלון)." },
+                      { q: '"בוא נחשוב יחד על שיקוי קסמים שמגרש צללים מפחידים - ממה הוא עשוי?"', exp: "שימוש בדמיון אקטיבי ליצירת מנגנוני התמודדות והרגעה עצמית." }
+                  ]
+                },
+                { title: "9. הגן של תמר (סמדר שיר)", level: "קורא מנוסה מאוד", levelColor: "purple",
+                  linguistic: ["<b>חריזה ומשקל:</b> טקסט עלילתי ארוך הדורש קשב מתמשך ורצף עלילתי.", "<b>אוצר מילים:</b> שמות של פינות בגן, כללי התנהגות, ושפה רגשית (נעלב, התרגש, הסס).", "<b>טיפוגרפיה פעילה:</b> פסקאות מופרדות לאתנחתות המאפשרות להורה לעצור ולשאול שאלות תיווך."],
+                  thematic: ["<b>הבעיה:</b> תמר מגיעה לגן שבו כולם כבר מכירים את כולם, ומרגישה 'שקופה'.", "<b>המניע:</b> הצורך להשתלב במשחק קבוצתי מבלי לאבד את הייחודיות שלה.", "<b>הטוויסט:</b> תמר משתמשת דווקא בשיר מהגן הישן שלה כדי ללמד את הילדים משחק חדש."],
+                  psych: ["<b>קול פנימי:</b> 'אני מביאה איתי מתנות למקום החדש, אני לא באה בידיים ריקות.'", "<b>התמודדות עם פחד:</b> מציאת האומץ לדבר מול קבוצה מגובשת של ילדים.", "<b>תוצאה לא צפויה:</b> ההבנה שהשונות והחדשנות שלה הם יתרון שמקרב אליה חברים."],
+                  visuals: "איורים צפופים הממחישים את ההמולה של גן ילדים, תמר בולטת תמיד בפריט לבוש ייחודי.",
+                  mediation: [
+                      { q: '"איך תמר הצליחה בסוף למצוא חברים בגן החדש?"', exp: "מדגיש את היוזמה האישית כמפתח להשתלבות חברתית ולא פסיביות." },
+                      { q: '"איזה משחק אתה הכי אוהב ללמד ילדים אחרים?"', exp: "מעצים את הילד ומזכיר לו את יכולותיו הייחודיות שהוא מביא איתו לגן." },
+                      { q: '"האם קשה לדעתך להיות הילד היחיד שלא מכיר את השירים של כולם?"', exp: "פיתוח אמפתיה עמוקה לחוויית הזרות של עצמו ושל ילדים חדשים." },
+                      { q: '"מה לדעתך נתן לתמר את האומץ לעמוד מול כולם ולהתחיל לשיר?"', exp: "איתור כוחות חוסן, תעוזה ויוזמה פנימיים אצל הגיבור כהשראה." },
+                      { q: '"איך הגוף של תמר הרגיש אחרי שכולם התחילו לשחק איתה?"', exp: "חיבור בין הקלה רגשית וחברתית להרפיה ותחושה טובה גופנית." }
+                  ]
+                },
+                { title: "10. איפה הבית שלי? (תמר וייס)", level: "קורא מתחיל", levelColor: "yellow",
+                  linguistic: ["<b>חריזה ומשקל:</b> צורה של שאלות ותשובות חוזרות ('פה הבית?' 'לא, זה גן.').", "<b>אוצר מילים:</b> מושגי יסוד מבניים (גג, דלת, חלון) ומילות שייכות.", "<b>טיפוגרפיה פעילה:</b> המילה 'שלי' מודגשת בגדול בכל פעם שמוצאים חפץ מוכר בתוך הארגזים."],
+                  thematic: ["<b>הבעיה:</b> בלבול ביום המעבר כשהרהיטים נמצאים בדירה לא מוכרת.", "<b>המניע:</b> רצון לארגן מחדש את המרחב כדי שיחזור להיות 'בית'.", "<b>הטוויסט:</b> הבית לא הופך לבית בגלל הקירות, אלא ברגע שאמא ואבא יושבים יחד על השטיח המוכר."],
+                  psych: ["<b>קול פנימי:</b> 'בית זה איפה שהמשפחה והדברים האהובים שלי נמצאים.'", "<b>התמודדות עם פחד:</b> חיפוש אקטיבי של אלמנטים מוכרים בתוך כאוס זר.", "<b>תוצאה לא צפויה:</b> ארוחת ערב על רצפת סלון ריק נחווית כחוויה כייפית ולא כמחסור."],
+                  visuals: "הדפים הראשונים אפורים וזרים, וכל חפץ שמוצאים נצבע בצבע ומוסיף חיים לדף.",
+                  mediation: [
+                      { q: '"מה עושה את הבית שלנו לבית - הקירות והחלונות, או האנשים שגרים בו?"', exp: "העברת משקל מהמבנה הפיזי (שמשתנה) לביטחון המשפחתי (הקבוע)." },
+                      { q: '"איזה חפץ שלך הכי ישמח אותך למצוא כשנפרוק את הארגזים?"', exp: "חיזוק רגשות חיוביים וציפייה בתוך אי-הסדר הכללי." },
+                      { q: '"כשיושבים לאכול על השטיח בסלון ריק, זה מרגיש עצוב או כמו פיקניק?"', exp: "עידוד שינוי פרספקטיבה ממשבר (אין ריהוט) להרפתקה יוצאת דופן." },
+                      { q: '"האם הבית הוא רק קירות או שהוא בעצם האנשים שבתוכו?"', exp: "העמקת ההבנה של שייכות משפחתית ורגשית שעולה על שייכות גיאוגרפית." },
+                      { q: '"מה המילה הראשונה שתרצה להגיד לחדר החדש שלך כשתיכנס אליו?"', exp: "הנחלת בעלות, התיידדות ושליטה על המרחב החדש והלא מוכר." }
+                  ]
+                },
+                { title: "11. לקוף יש בעיה (ג'וליה דונלדסון)", level: "קורא פחות מנוסה", levelColor: "green",
+                  linguistic: ["<b>חריזה ומשקל:</b> משקל מהיר, חריזה גאונית המייצרת ציפייה ומפתחת הבנה פונולוגית.", "<b>אוצר מילים:</b> אוצר מילים של תיאור תכונות פיזיות עשירות וניגודים (קטן, שעיר, רגליים ארוכות).", "<b>טיפוגרפיה פעילה:</b> זעקות ה'לא, לא, לא!' של הקוף דורשות השתתפות פעילה של הילד הקורא."],
+                  thematic: ["<b>הבעיה:</b> הקוף הולך לאיבוד (סימבול לכניסה למסגרת ללא הורה) ומחפש את אמא.", "<b>המניע:</b> הצורך בחיבור מחדש לדמות ההתקשרות הבטוחה בסביבה זרה (הג'ונגל).", "<b>הטוויסט:</b> הפרפר, שילדיו אינם דומים לו, לא מעלה בדעתו שקוף ואמו נראים אותו דבר."],
+                  psych: ["<b>קול פנימי:</b> 'אפילו כשחיפשתי והתבלבלתי המון פעמים, בסוף אמצא את המקום המוכר.'", "<b>התמודדות עם פחד:</b> הומור משחרר מול פחד הנטישה הקמאי. הצחוק על הטעויות מרכך את הפחד.", "<b>תוצאה לא צפויה:</b> מציאת אבא במקום אמא, והבנה שהביטחון מגיע ממספר דמויות משמעותיות."],
+                  visuals: "איורים מפורטים של אקסל שפלר המאפשרים לילד לנחש מי מסתתר לפני הפיכת הדף.",
+                  mediation: [
+                      { q: '"למה הפרפר כל הזמן טעה כשהוא חיפש את אמא של הקוף?"', exp: "עידוד חשיבה מנקודת מבט של האחר (Theory of Mind) והבנת טעויות." },
+                      { q: '"איך הקוף הרגיש כשהוא מצא את אבא שלו לבסוף?"', exp: "חיזוק תחושת הביטחון העמוקה שהמשפחה תמיד נמצאת בסוף התהליך." },
+                      { q: '"איזה סימן זיהוי מיוחד היית אומר לפרפר כדי שימצא את אמא שלך?"', exp: "חידוד תחושת השייכות, הייחודיות והביטחון של התא המשפחתי המצומצם." },
+                      { q: '"מה הקוף עשה כדי לא להיכנס לפאניקה כשחיפש כל כך הרבה זמן?"', exp: "זיהוי אסטרטגיות הרגעה עצמית ותפקוד למרות הפחד מאובדן." },
+                      { q: '"לפעמים גם אתה מפחד ללכת לאיבוד כשאנחנו במקום גדול כמו קניון?"', exp: "מתן לגיטימציה מוחלטת לפחד אבולוציוני בסיסי של פרידה מהורה." }
+                  ]
+                },
+                { title: "12. גורילה (אנתוני בראון)", level: "קורא מנוסה מאוד", levelColor: "purple",
+                  linguistic: ["<b>חריזה ומשקל:</b> טקסט מלנכולי ואיטי, דורש בגרות והבנת סאבטקסט (קריאה שקטה).", "<b>אוצר מילים:</b> מיעוט במילים, שימוש בשתיקות כמרכיב סיפורי בולט ('אבא היה עסוק').", "<b>טיפוגרפיה פעילה:</b> רווחים גדולים בין משפטים כדי לאפשר חלחול של תחושת הבדידות וההמתנה."],
+                  thematic: ["<b>הבעיה:</b> חנה עוברת דירה/חווה ריחוק פיזי ורגשי בגלל העיסוקים של אביה סביב מעבר או שינוי חיים.", "<b>המניע:</b> הצורך בתשומת לב, חום וחברה במקום שמרגיש מנוכר.", "<b>הטוויסט:</b> בובת הגורילה מתעוררת לחיים ולוקחת אותה למסע של הגשמת משאלות."],
+                  psych: ["<b>קול פנימי:</b> 'כשעצוב לי או כשאני לבד, יש לי דמיון עשיר שיכול להגן עלי ולשמח אותי.'", "<b>התמודדות עם פחד:</b> הפיכת החיה המאיימת (הגורילה) לדמות מגינה, עוטפת ואבהית.", "<b>תוצאה לא צפויה:</b> ההרפתקה הדמיונית גורמת לאבא במציאות להיות זמין ונוכח יותר בבוקר שאחרי."],
+                  visuals: "איורים סוריאליסטיים המבטאים עומק רגשי אדיר. בדידות בסביבה קרה לעומת חום הגורילה.",
+                  mediation: [
+                      { q: '"מה חנה עשתה עם הגורילה בלילה? מה אתה היית עושה במקומה?"', exp: "מתן לגיטימציה לבריחה בריאה לעולם הדמיון והמשחק כשמרגישים בדידות." },
+                      { q: '"איך אבא התנהג בבוקר לעומת ההתחלה של הסיפור?"', exp: "הבנה שגם מצבי רוח ועומס עבודה של הורים הם זמניים ויכולים להשתפר." },
+                      { q: '"למה חנה דמיינה דווקא גורילה ענקית ולא חיה קטנה ועדינה?"', exp: "הבנת הצורך הפסיכולוגי העמוק בדמות עוטפת, גדולה, חזקה ומגנה מול בדידות." },
+                      { q: '"האם אתה כועס לפעמים כשמבוגרים עסוקים מדי ולא יכולים לשחק?"', exp: "מתן מקום בטוח לביטוי כעס, אכזבה ותסכול כלפי דמויות סמכות." },
+                      { q: '"לאן אתה היית רוצה שהגורילה תיקח אותך באמצע הלילה?"', exp: "הפלגה משותפת בדמיון כפיצוי ומילוי מצברים על תחושת חסך במציאות." }
+                  ]
+                },
+                { title: "13. יום ראשון של זזה בגן", level: "קורא פחות מנוסה", levelColor: "green",
+                  linguistic: ["<b>חריזה ומשקל:</b> ללא חריזה מוקפדת, טקסט קצרצר המותאם לקשב של בני 3.", "<b>אוצר מילים:</b> שימוש בשמות רגשות מפורשים (פוחד, מתבייש, שמח).", "<b>טיפוגרפיה פעילה:</b> הדגשת שמות הרגשות בצבעים שונים כדי לתווך שיח רגשי."],
+                  thematic: ["<b>הבעיה:</b> זזה הפינגווינית לא רוצה לעזוב את הקרחון המוכר וללכת לגן.", "<b>המניע:</b> החשש מקולות חזקים וזרים של החיות האחרות.", "<b>הטוויסט:</b> היא מגלה פינה שקטה בגן שבה היא יכולה להיות בקצב שלה בלי לחץ קבוצתי."],
+                  psych: ["<b>קול פנימי:</b> 'מותר לי לשבת בצד ולא לשחק מיד עם כולם.'", "<b>התמודדות עם פחד:</b> תהליך ויסות – צפייה באחרים מהצד כמנגנון הסתגלות בריא לפני הצטרפות.", "<b>תוצאה לא צפויה:</b> ילד אחר שניגש אליה בשקט ומציע לה צדף, יצירת קשר בקצב שלה."],
+                  visuals: "חלוקה ויזואלית בין 'אזור הרועש' בגן לאזור 'הבטוח והשקט'.",
+                  mediation: [
+                      { q: '"למה זזה רצתה בהתחלה לשבת בצד בשקט בלי לשחק?"', exp: "מתן לגיטימציה אבסולוטית לצורך בהתרחקות ותצפית ככלי להסתגלות איטית." },
+                      { q: '"איך הילד השני התקרב אליה? האם זה עזר לה להיפתח?"', exp: "הבנת הדינמיקה העדינה וחסרת המילים של יצירת חברות ראשונה נכונה." },
+                      { q: '"למה האוזניים של זזה התעייפו מכל הרעש שהחיות עשו בגן?"', exp: "הגברת המודעות לוויסות חושי ועומס גירויים כחלק קריטי מהסתגלות רגשית." },
+                      { q: '"האם גם אתה צריך לפעמים פינת שקט כשנהיה לך עמוס מדי עם ילדים?"', exp: "נרמול הצורך האישי בהפסקה, גבולות והתנתקות זמנית בליווי תחושת אשמה." },
+                      { q: '"מה הילד עם הצדף עשה נכון שגרם לזזה להסכים לשחק איתו?"', exp: "למידת מיומנויות חברתיות של התקרבות עדינה, הזמנה פסיבית וקריאת שפת גוף." }
+                  ]
+                },
+                { title: "14. צב על הגב (אריאלה בוצר)", level: "קורא מתחיל", levelColor: "yellow",
+                  linguistic: ["<b>חריזה ומשקל:</b> חריזה זוגית פשוטה שמקנה קצב אטי, בדיוק כמו הליכת הצב.", "<b>אוצר מילים:</b> התמקדות במילות זמן ומהירות (לאט, מהר, חכה).", "<b>טיפוגרפיה פעילה:</b> המילים המביעות איטיות נפרסות לרווחים: ל-א-ט."],
+                  thematic: ["<b>הבעיה:</b> הצב צריך לעבור למקום חדש אבל הוא איטי מדי וכולם עוקפים אותו.", "<b>המניע:</b> הצורך להגיע ליעד בקצב אישי בסביבה של מעברים מהירים (מעבר דירה מלחיץ).", "<b>הטוויסט:</b> כשיש סערה (משבר במעבר), הצב הוא היחיד שיש לו בית מיידי להסתתר בו."],
+                  psych: ["<b>קול פנימי:</b> 'הקצב שלי הוא בסדר גמור, יש בו גם יתרונות.'", "<b>התמודדות עם פחד:</b> התמודדות עם תחושת נחיתות תחרותית, הבנת הערך של הגנה פנימית ואיטיות מחושבת.", "<b>תוצאה לא צפויה:</b> מי שהיה איטי ו'חלש' הופך למרכז הכוח בסביבה החדשה."],
+                  visuals: "קונטרסט בין חיות תזזיתיות (ארנב חרד) לרוגע הסטטי של הצב.",
+                  mediation: [
+                      { q: '"האם זה לפעמים טוב להיות קצת איטי? באילו מצבים למה?"', exp: "הפרכת התפיסה החברתית שמהירות היא תמיד יתרון. חיזוק הערך של קצב אישי." },
+                      { q: '"איך הצב עזר לעצמו ולחבריו כשהתחילה הסערה הגדולה?"', exp: "זיהוי מנגנוני הגנה פנימיים ו'שריונים' כמשאב של כוח חברתי ולא כחולשה." },
+                      { q: '"איך הצב מרגיש בלב כשכולם רצים סביבו ואומרים לו שהוא איטי מדי?"', exp: "עיבוד תחושות מורכבות של לחץ חברתי, חוסר התאמה וציפיות חיצוניות." },
+                      { q: '"מה היתרון הכי גדול בזה שהבית שלך תמיד נמצא לך על הגב?"', exp: "ראיית חצי הכוס המלאה ומציאת ביטחון עמוק במאפיינים אישיים ובבית פנימי." },
+                      { q: '"באיזה רגע במהלך היום היית רוצה שהזמן יעבור לאט-לאט כמו ההליכה של הצב?"', exp: "חיבור הילד לקצב הפנימי המרגיע שלו ולחשיבות של רגעי השתהות ורוגע." }
+                  ]
+                },
+                { title: "15. פליקס חוקר את העולם (עובר דירה)", level: "קורא מנוסה מאוד", levelColor: "purple",
+                  linguistic: ["<b>חריזה ומשקל:</b> סיפור עלילתי דרך מכתבים, מבנה של יומן (ללא חריזה).", "<b>אוצר מילים:</b> אוצר מילים תיאורי, שמות של מקומות ומנהגים, מילות געגוע וקשר מרחוק.", "<b>טיפוגרפיה פעילה:</b> גופן המדמה כתב יד אישי, ותוספות של מעטפות אמיתיות (בספר הפיזי)."],
+                  thematic: ["<b>הבעיה:</b> התנתקות מחברים קודמים בעקבות מעבר דירה לעיר/ארץ אחרת.", "<b>המניע:</b> הרצון לשמר קשר עם העבר ועם אהובים רחוקים.", "<b>הטוויסט:</b> למרות המרחק הפיזי, הקשר לא מתנתק אלא משתנה והופך להרפתקני דרך המכתבים."],
+                  psych: ["<b>קול פנימי:</b> 'מרחק לא מוחק אהבה וחברות.'", "<b>התמודדות עם פחד:</b> טיפול בחרדת הפרידה מחבר/סביבה דרך יצירת אפיק תקשורת אלטרנטיבי (מכתבים/טלפונים).", "<b>תוצאה לא צפויה:</b> המעבר גורם לסופי להכיר עולמות חדשים דרך המכתבים של פליקס, הופך משבר להעשרה."],
+                  visuals: "שילוב של איורים עם מכתבים פונקציונליים, המחברים מציאות (נייר מכתבים) לדמיון (ההרפתקה).",
+                  mediation: [
+                      { q: '"למי מהחברים הישנים היית רוצה לכתוב מכתב עכשיו? מה היית אומר לו?"', exp: "תרגול מעשי של שמירת קשר ועיבוד געגוע מעבר למרחב הפיזי." },
+                      { q: '"איך סופי הרגישה כשקיבלה מכתב ממרחק למרות שהייתה רחוקה?"', exp: "הבנה עמוקה שקשר רגשי אמיתי מתקיים, נושם וחי גם כשלא מתראים כל יום." },
+                      { q: '"האם היית מעדיף לקבל ציור פשוט בטלפון או מכתב אמיתי במעטפה מחבר?"', exp: "הבנת הערך של השקעה אישית, התאמצות והמחשת קשר רגשי דרך חומר." },
+                      { q: '"איך סופי התגברה לבסוף על הגעגועים החזקים שלה לפליקס הדובי?"', exp: "זיהוי מנגנונים אקטיביים והסחות דעת בריאות להתמודדות עם אובדן וריחוק חברתי." },
+                      { q: '"מהו הדבר האחד שתמיד תזכור בלב מחבר טוב שעבר לגור רחוק?"', exp: "שימור הזיכרון החיובי כנכס פנימי משמעותי שלא ניתן לקחת או לאבד לעולם." }
+                  ]
+                },
+                { title: "16. נפתלי הולך לגן (אלונה פרנקל)", level: "קורא פחות מנוסה", levelColor: "green",
+                  linguistic: ["<b>חריזה ומשקל:</b> קצב דיבורי ואינטימי (בגובה העיניים), שפת אם המקריאה.", "<b>אוצר מילים:</b> מתן שמות לפעולות רוטיניות (תולה מעיל, נפרד מאמא, משחק בקוביות).", "<b>טיפוגרפיה פעילה:</b> משפטים קצרים מאוד וברורים ליצירת סדר יום מאורגן קוגניטיבית."],
+                  thematic: ["<b>הבעיה:</b> תיווך המעבר השגרתי אך העצום מחיק המשפחה לעולם הגן הציבורי.", "<b>המניע:</b> צורך בבהירות של סדר היום (מה יקרה לי שם?).", "<b>הטוויסט:</b> אמא עוזבת, אבל נפתלי לא בוכה (נרמול פוזיטיבי) אלא מיד ניגש למטלות הגן."],
+                  psych: ["<b>קול פנימי:</b> 'אני כבר גדול, אני יכול לעשות דברים בעצמי בגן.'", "<b>התמודדות עם פחד:</b> פירוק הלא-נודע לפעולות קטנות וידועות מראש שמפחיתות חרדה.", "<b>תוצאה לא צפויה:</b> פרידה אינה תמיד דרמה גדולה, היא יכולה להיות חלקה וטבעית."],
+                  visuals: "איורים ברורים, על רקע לבן, המבטלים עומס גירויים ומאפשרים לילד להתרכז בפעולות עצמן.",
+                  mediation: [
+                      { q: '"מה הדבר הראשון שנפתלי עושה כשהוא מגיע לגן בבוקר?"', exp: "ביסוס סדר יום עקבי ויצירת עוגנים של ודאות ושליטה בשגרת הבוקר בגן." },
+                      { q: '"האם נפתלי בכה כשאמא הלכה? האם לדעתך מותר גם לבכות כשנפרדים?"', exp: "נרמול מנעד רחב ולגיטימי של תגובות רגשיות לפרידה והכרה בערכו של הרגש." },
+                      { q: '"למה זה עוזר לנפתלי לדעת מראש בדיוק מה עושים בכל שעה בגן?"', exp: "הבנת החשיבות הקריטית של סדר, יכולת ניבוי ורוטינה להפחתת חרדות גיל הרך." },
+                      { q: '"איזו משימה של ילד גדול אתה הכי אוהב לעשות לבד בבוקר בלי עזרה?"', exp: "העצמת תחושת מסוגלות אישית, ערך עצמי ועצמאות תואמת גיל ויכולת." },
+                      { q: '"כשנפתלי תלה את המעיל על הקולב שלו בבוקר, מה זה אמר לו בלב?"', exp: "ביסוס תחושת ה'מקום שלי', השייכות הפיזית והנוכחות האישית בתוך מסגרת ציבורית." }
+                  ]
+                },
+                { title: "17. החברים של פילפילון", level: "קורא מתחיל", levelColor: "yellow",
+                  linguistic: ["<b>חריזה ומשקל:</b> משפטים חזרתיים על דחייה וקבלה ('מי ישחק איתי?').", "<b>אוצר מילים:</b> שימוש במילות תואר המעצימות שונות (גדול מדי, ארוך מדי, אפור).", "<b>טיפוגרפיה פעילה:</b> סימני קריאה גדולים כשהחיות אומרות לפיל 'לא!'."],
+                  thematic: ["<b>הבעיה:</b> דחייה חברתית ביום הראשון במסגרת, תחושת 'אני לא מתאים'.", "<b>המניע:</b> הצורך באהדה חברתית גם כשיש לך נתונים פיזיים/אישיותיים שונים.", "<b>הטוויסט:</b> החיסרון (החדק הארוך והשונה) הופך ליתרון כשהוא מחלץ כדור מהעץ וכולם רוצים לשחק איתו."],
+                  psych: ["<b>קול פנימי:</b> 'מה ששונה בי הוא גם הכוח המיוחד שלי.'", "<b>התמודדות עם פחד:</b> אומץ להציע את עצמך שוב למשחק גם אחרי דחייה חוזרת ונשנית בגן החדש.", "<b>תוצאה לא צפויה:</b> לא צריך להשתנות כדי להיות מקובל, אלא להשתמש בתכונותיך לטובת הכלל."],
+                  visuals: "הפיל מצויר תמיד במרכז הדף, גדול ומגושם, ממחיש את תחושת השונות והמועקה שלו.",
+                  mediation: [
+                      { q: '"למה החיות לא רצו בהתחלה לשחק עם פילפילון? האם זה היה פייר?"', exp: "התמודדות עם חוויית הדחייה והבנת המניע השטחי והסטיגמטי של חברות (זרות ושונות)." },
+                      { q: '"איך החדק הארוך והשונה שלו עזר בסוף לכולם לשחק שוב?"', exp: "הפניית הזרקור לכך שמה שנראה בהתחלה כחיסרון יכול להתברר ככוח מיוחד ומועיל." },
+                      { q: '"האם הלב של פילפילון נעלב יותר כשאמרו שהוא גדול מדי או כשהתעלמו ממנו?"', exp: "הבחנה עדינה בין סוגים שונים של דחייה חברתית - מילולית מול התעלמות." },
+                      { q: '"אם פילפילון היה בוכה ובורח, החיות היו מגלות אי פעם את החדק שלו?"', exp: "הדגשת חשיבות ההתמדה, כוח הרצון והנוכחות הרגשית גם אחרי כישלון או עלבון חברתי." },
+                      { q: '"איזה כוח מיוחד יש בך שאולי ילדים אחרים בגן עדיין לא גילו?"', exp: "עידוד גאווה אישית, ביטחון עצמי עמוק במאפיינים ייחודיים ובניית דימוי עצמי מנצח." }
+                  ]
+                },
+                { title: "18. תירס חם (מרים רות)", level: "קורא מנוסה מאוד", levelColor: "purple",
+                  linguistic: ["<b>חריזה ומשקל:</b> פואמה קיצבית ומדבקת (בים-בם-בום), המעודדת תנועה והצטרפות לשיירה.", "<b>אוצר מילים:</b> מילות פעולה (שרים, מתופפים, מקישים) ומילות שייכות קבוצתית.", "<b>טיפוגרפיה פעילה:</b> ה'בים-בם-בום' מהדהד טקסטואלית כפזמון מרגיע שמלכד את כולם."],
+                  thematic: ["<b>הבעיה:</b> יצירת קבוצה חברתית (סמל להקמת חברה בגן חדש) סביב הבטחה שגויה (אין תירס).", "<b>המניע:</b> הרצון להשתייך לשיירה ולמטרה משותפת.", "<b>הטוויסט:</b> הסיר ריק. המשבר מאיים לפרק את החבורה ולהוביל לאלימות מילולית/בכי."],
+                  psych: ["<b>קול פנימי:</b> 'גם כשיש אכזבה מחבר, אפשר למצוא פתרון שישמור על היחד.'", "<b>התמודדות עם פחד:</b> התמודדות עם תסכול חריף ואכזבה של ציפיות בתוך חברה חדשה (גן).", "<b>תוצאה לא צפויה:</b> סבא מבשל תירס אמיתי, התערבות הורית מרגיעה שעוזרת לאחות משבר חברתי בגיל הרך."],
+                  visuals: "השיירה גדלה מדף לדף, ממחישה לילד דינמיקה של 'הצטרפות', אופייני למשחקי חצר בגן.",
+                  mediation: [
+                      { q: '"מה קרה כשכולם גילו שאין בכלל תירס בסיר? איך הם הרגישו?"', exp: "עיבוד תחושת תסכול, שבר ואכזבה קבוצתית עמוקה מציפיות שלא התממשו כמתוכנן." },
+                      { q: '"מה סבא עשה כדי לפתור את הבעיה ולהרגיע את החברים הרעבים?"', exp: "חיזוק הידיעה החשובה שתמיד יש מבוגר אחראי ששומר ויכול לעזור כשהדברים משתבשים." },
+                      { q: '"איך הגוף של הילדים הגיב כשהם גילו שאין תירס בסיר הגדול?"', exp: "חיבור עמוק בין כעס, קריסת ציפיות, רעב, לתגובות פיזיולוגיות ומוטוריות של אכזבה." },
+                      { q: '"מה לדעתך עזר להם להישאר חברים למרות שכולם כעסו נורא על אופיר?"', exp: "איתור מנגנוני סליחה ולכידות קבוצתית גם בעתות משבר וקונפליקט חברתי בגן." },
+                      { q: '"אם היית שם, איזה רעיון היית מציע כדי לפתור את המריבה לפני שסבא הגיע?"', exp: "פיתוח מיומנויות חשיבה פרואקטיביות לפתרון קונפליקטים מורכבים באופן עצמאי לחלוטין." }
+                  ]
+                },
+                { title: "19. האריה שאהב תות (תרצה אתר)", level: "קורא מתחיל", levelColor: "yellow",
+                  linguistic: ["<b>חריזה ומשקל:</b> חריזה אבסורדית מצחיקה, קצב שמתגבר ככל שהאריה בוכה ומייבב.", "<b>אוצר מילים:</b> הגזמות רגשיות ('בכה ובכה', 'פסק לאכול'), שמות של תותים ופירות היער.", "<b>טיפוגרפיה פעילה:</b> הדגשת היללות של האריה בצורת גלים יורדים בטקסט."],
+                  thematic: ["<b>הבעיה:</b> קשיי הסתגלות למקום שאין בו את מה שאני אוהב/רגיל מהבית (אוכל בגן החדש).", "<b>המניע:</b> עקשנות אגוצנטרית - סירוב לקבל את המציאות שבה המשאב מוגבל.", "<b>הטוויסט:</b> כשהוא סוף סוף מקבל תות מילדים, הוא מגלה שזה בכלל לא טעים לו!"],
+                  psych: ["<b>קול פנימי:</b> 'לפעמים אני מתעקש סתם. אולי שווה לנסות את האוכל/כללים החדשים?'", "<b>התמודדות עם פחד:</b> ויתור על הקיבעון מהבית מול נורמות של מסגרת (לאכול מה שיש בגן/יער).", "<b>תוצאה לא צפויה:</b> ההבנה שהאמא הצודקת, והסכמה לאכול אוכל רגיל בלי לייבב. נרמול גבולות."],
+                  visuals: "הניגוד הקומי בין האריה החזק והגדול שמתנהג כמו פעוט עקשן שעושה התקף זעם (טנטרום).",
+                  mediation: [
+                      { q: '"למה האריה בכה כל כך חזק ביער כשרצה רק תות מכל המאכלים בעולם?"', exp: "רפלקציה עקיפה ולא מאיימת של הילד על 'טנטרומים', צעקות והעקשנות של עצמו." },
+                      { q: '"מה הוא הבין כשטעם את התות בסוף? האם זה היה שווה את כל הבכי?"', exp: "פיתוח גמישות מחשבתית ונכונות להתנסות בדברים חדשים שמוגשים לו בגן." },
+                      { q: '"האם אמא לביאה כעסה עליו כשהוא בכה או רק חיכתה בסבלנות שיירגע?"', exp: "בחינת תפקיד ההורה/הגננת כמיכל מכיל ובטוח בזמן התקף זעם סוער של ילד." },
+                      { q: '"למה היה לו כל כך קשה לוותר על הרעיון של התות בהתחלה למרות שהיה רעב?"', exp: "הבנת הקושי העצום הטמון בגמישות קוגניטיבית והצמדות למוכר ולבטוח במצבי מתח." },
+                      { q: '"מה קורה לנו בבטן כשאנחנו בוכים המון המון זמן ולא מקבלים מה שרצינו?"', exp: "הגברת המודעות להתשה האנרגטית הפיזית ולתחושת ההתרוקנות שמגיעה מיד אחרי כעס ממושך." }
+                  ]
+                },
+                { title: "20. העץ הנדיב (של סילברסטיין)", level: "קורא מנוסה מאוד", levelColor: "purple",
+                  linguistic: ["<b>חריזה ומשקל:</b> פרוזה לירית ללא חריזה. משקל של מחזור חיים מתמשך, קצב מדיטטיבי עמוק.", "<b>אוצר מילים:</b> שפת נתינה ולקיחה (לקטוף, למכור, לבנות, לנוח), מושגי זמן רחבים ('וחלפו השנים').", "<b>טיפוגרפיה פעילה:</b> טקסט מינימליסטי המשאיר חלל לבן גדול שמאפשר חשיבה והפנמה."],
+                  thematic: ["<b>הבעיה:</b> הילד/אדם גדל ועובר למרחבים חדשים, ומתרחק גיאוגרפית ורגשית מנקודת המוצא.", "<b>המניע:</b> צמיחה, רדיפה אחרי צרכים משתנים, מעבר דירה לעיר הגדולה.", "<b>הטוויסט:</b> העץ (ההורה/הבית הישן) מוכן לאבד את עצמו לחלוטין כדי לשרת את מעברי החיים של הילד."],
+                  psych: ["<b>קול פנימי:</b> 'לא משנה לאן אעבור וכמה אגדל, יש לי עוגן שתמיד נשאר שייך לי.'", "<b>התמודדות עם פחד:</b> טיפול עמוק בחרדת הפרידה. הספר מספק פרספקטיבה לפרידה ולעזיבת הבית (העץ).", "<b>תוצאה לא צפויה:</b> בסוף, כשהעץ כרות ומשמש רק כגזע לשבת עליו, הוא עדיין מאושר (הורות במעברים)."],
+                  visuals: "רישום שחור-לבן מינימליסטי וקווים דקים המדגישים את הריקנות לעומת הנתינה.",
+                  mediation: [
+                      { q: '"למה העץ כל כך שמח לתת לילד את הענפים שלו כשהוא גדל והחליט לעזוב?"', exp: "הבנת המושג העמוק של נתינה מוחלטת וקשר הורי בטוח שאינו תלוי בדבר." },
+                      { q: '"האם הילד שכח את העץ לגמרי כשהוא התרחק ממנו כדי לבנות בית חדש?"', exp: "העברת מסר מרגיע של קשר נצחי גם במרחק של זמן, מקום ושינויים דרסטיים בחיים." },
+                      { q: '"האם יכול להיות שהעץ היה קצת עצוב כשהילד לא בא לבקר אותו הרבה זמן?"', exp: "פיתוח אמפתיה לדמות הנותנת ולחוויית ההמתנה הכרוכה באהבה מרחוק." },
+                      { q: '"למה הילד חזר אל העץ בכל פעם שהיה לו קשה בחוץ או שהוא היה צריך משהו?"', exp: "הבנת הקונספט הפסיכולוגי של 'בסיס בטוח' שממנו יוצאים ואליו תמיד ניתן לחזור כשקשה." },
+                      { q: '"אם היית העץ, האם היית מסכים לתת הכל לחבר בלי לקבל שום דבר חזרה?"', exp: "פתיחת דיון פילוסופי-רגשי מרתק על גבולות הנתינה, הקרבה, אגואיזם ואהבה טהורה." }
+                  ]
+                }
+            ];
+
+            let htmlString = "";
+            remainingBooks.forEach(book => {
+                let badgeClass = book.levelColor === 'yellow' ? 'bg-yellow-100 text-yellow-800' : 
+                                book.levelColor === 'green' ? 'bg-green-100 text-green-800' : 
+                                'bg-purple-100 text-purple-800';
+                                
+                htmlString += `
+                <details class="bg-surface rounded-2xl shadow-sm border border-purple-100 group overflow-hidden mt-6 animate-pulse-slow">
+                    <summary class="font-heading font-bold text-xl text-textDark p-6 cursor-pointer hover:bg-purple-50 transition flex justify-between items-center list-none">
+                        <div class="flex items-center gap-4">
+                            <span class="text-primary text-2xl"><i class="fas fa-book"></i></span>
+                            <span>${book.title}</span>
+                        </div>
+                        <span class="${badgeClass} text-sm px-3 py-1 rounded-full whitespace-nowrap">${book.level}</span>
+                    </summary>
+                    <div class="p-6 border-t border-purple-100 text-textMain text-sm sm:text-base bg-white space-y-4">
+                        <div>
+                            <h4 class="font-bold text-primary mb-1"><i class="fas fa-language"></i> ניתוח לשוני וסגנוני</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li>${book.linguistic[0]}</li>
+                                <li>${book.linguistic[1]}</li>
+                                <li>${book.linguistic[2]}</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentBlue mb-1"><i class="fas fa-brain"></i> ניתוח תמטי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li>${book.thematic[0]}</li>
+                                <li>${book.thematic[1]}</li>
+                                <li>${book.thematic[2]}</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-accentPink mb-1"><i class="fas fa-heart"></i> מסר פסיכולוגי-חברתי</h4>
+                            <ul class="list-disc list-inside ml-2">
+                                <li>${book.psych[0]}</li>
+                                <li>${book.psych[1]}</li>
+                                <li>${book.psych[2]}</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-secondary mb-1"><i class="fas fa-paint-brush"></i> איורים</h4>
+                            <p>${book.visuals}</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 mt-4">
+                            <h4 class="font-bold text-textDark mb-2 flex items-center gap-2"><i class="fas fa-comments text-primary"></i> הנחיות לתיווך הורי</h4>
+                            <div class="space-y-2 mt-2">
+                                ${book.mediation ? book.mediation.map((m, idx) => `
+                                <div class="flex items-start gap-2 bg-white p-3 rounded-lg shadow-sm">
+                                    <i class="fas fa-question-circle ${idx === 0 ? 'text-accentPink' : 'text-accentBlue'} mt-1"></i>
+                                    <p class="text-sm text-textDark"><strong>${m.q}</strong><br><span class="text-textMain font-normal">${m.exp}</span></p>
+                                </div>
+                                `).join('') : ''}
+                            </div>
+                        </div>
+                    </div>
+                </details>`;
+            });
+
+            document.getElementById('showMoreBooksBtn').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> טוען ספרים נוספים...';
+                
+                setTimeout(() => {
+                    const grid = document.getElementById('books-grid');
+                    grid.insertAdjacentHTML('beforeend', htmlString);
+                    this.classList.add('hidden'); // Hide the button after loading
+                }, 800);
+            });
+        });
+    </script>
+
+</body></html>

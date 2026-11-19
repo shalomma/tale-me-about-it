@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* Brand tokens carried over from the original Gemini app's Tailwind config. */
+@theme {
+  --color-primary: #9333ea; /* magic, imagination */
+  --color-primary-light: #d8b4fe;
+  --color-secondary: #fbbf24; /* warmth, sun */
+  --color-cream: #fffbeb; /* page background */
+  --color-surface: #ffffff;
+  --color-ink: #5b21b6; /* body text */
+  --color-ink-dark: #4c1d95; /* headings */
+  --color-accent-pink: #f472b6;
+  --color-accent-blue: #38bdf8;
+  --color-accent-green: #34d399;
+
+  --font-sans: var(--font-heebo), system-ui, sans-serif;
+  --font-heading: var(--font-varela), var(--font-heebo), system-ui, sans-serif;
+
+  --shadow-soft: 0 10px 25px -5px rgb(147 51 234 / 0.1), 0 8px 10px -6px rgb(147 51 234 / 0.1);
+  --shadow-floating: 0 20px 25px -5px rgb(147 51 234 / 0.15), 0 10px 10px -5px rgb(147 51 234 / 0.04);
+
+  --animate-float: float 6s ease-in-out infinite;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+}
+
+/* Public site background: warm cream with a soft dotted pattern. */
+.site-bg {
+  background-color: var(--color-cream);
+  background-image: radial-gradient(var(--color-primary-light) 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+  background-attachment: fixed;
+  color: var(--color-ink);
+}
+
+.site-bg h1,
+.site-bg h2,
+.site-bg h3,
+.site-bg h4 {
+  font-family: var(--font-heading);
+}
+
+.glass-card {
+  background: rgb(255 255 255 / 0.85);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgb(255 255 255 / 0.5);
+}
+
+.magic-border {
+  position: relative;
+}
+.magic-border::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  inset-inline: 0;
+  height: 4px;
+  background: linear-gradient(to left, var(--color-secondary), var(--color-accent-pink));
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

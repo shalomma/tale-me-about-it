@@ -36,7 +36,9 @@ async function readSnapshot(): Promise<Snapshot> {
     const res = await get(BLOB_PATHNAME, { access: "private", useCache: false });
     if (res && res.statusCode === 200) {
       const text = await new Response(res.stream).text();
-      return { catalog: CatalogSchema.parse(JSON.parse(text)), etag: res.blob.etag };
+      // get() returns a weak ETag (W/"…"); conditional writes only accept the strong form.
+      const etag = res.blob.etag.replace(/^W\//, "");
+      return { catalog: CatalogSchema.parse(JSON.parse(text)), etag };
     }
     return { catalog: CatalogSchema.parse(seed), etag: null };
   }

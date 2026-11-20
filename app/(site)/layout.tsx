@@ -20,7 +20,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
               <span className="font-display text-xl font-semibold text-night">ספרו לי על זה</span>
             </Link>
             <p className="mt-3 max-w-md leading-relaxed">
-              ספרי תמונות לילדים בני 3–5 שעוברים משהו לא פשוט, עם שאלות שעוזרות להורים לפתוח שיחה.
+              ספרי תמונות לילדים בני 3-5 שעוברים משהו לא פשוט, עם שאלות שעוזרות להורים לפתוח שיחה.
             </p>
           </div>
           <div className="rounded-2xl bg-white/60 p-5 text-sm leading-relaxed">

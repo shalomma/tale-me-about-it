@@ -34,7 +34,7 @@ export default async function HomePage() {
             <Moon className="absolute -bottom-10 left-24 size-9 animate-drift text-lilac/70 max-lg:hidden" />
             <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-night-soft shadow-soft">
               <span className="size-2 rounded-full bg-sage" aria-hidden />
-              לגילאי 3–5 · {books.length} ספרים במדף
+              לגילאי 3-5 · {books.length} ספרים במדף
             </p>
             <h1 className="text-[2.6rem] leading-[1.08] font-semibold sm:text-6xl lg:text-[4.2rem]">
               כשקשה לדבר,
@@ -110,7 +110,7 @@ export default async function HomePage() {
               למה דווקא <span className="scribble">סיפור</span>?
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              בגילאי 3–5 ילדים מרגישים הכל בעוצמה, אבל לא תמיד יודעים לקרוא לזה בשם. ספר נותן להם דלת בטוחה: אפשר לדבר על הגיבור,
+              בגילאי 3-5 ילדים מרגישים הכל בעוצמה, אבל לא תמיד יודעים לקרוא לזה בשם. ספר נותן להם דלת בטוחה: אפשר לדבר על הגיבור,
               ובדרך לדבר גם על עצמם.
             </p>
             <p className="mt-3 leading-relaxed text-night-mute">לשיטה הזו קוראים ביבליותרפיה: עזרה רגשית דרך ספרים.</p>

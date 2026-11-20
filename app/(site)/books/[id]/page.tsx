@@ -12,6 +12,9 @@ import { PrintButton } from "@/components/site/print-button";
 import { matchBooks } from "@/lib/catalog/match";
 import { getPublishedBook, getPublishedBooks, type PublicBook } from "@/lib/catalog/queries";
 
+// Setting openGraph here replaces the inherited one, so name the site share image again.
+const SHARE_IMAGE = { url: "/opengraph-image.png", width: 1200, height: 630, alt: "ספרו לי על זה: כשקשה לדבר, אפשר לקרוא" };
+
 export async function generateStaticParams() {
   const books = await getPublishedBooks();
   return books.map((b) => ({ id: b.id }));
@@ -20,9 +23,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/books/[id]">): Promise<Metadata> {
   const book = await getPublishedBook((await params).id);
   if (!book) return {};
+  const title = book.author ? `${book.title} (${book.author})` : book.title;
+  const description = book.thematic.problem || undefined;
   return {
-    title: book.author ? `${book.title} (${book.author})` : book.title,
-    description: book.thematic.problem || undefined,
+    title,
+    description,
+    openGraph: { type: "article", locale: "he_IL", siteName: "ספרו לי על זה", title, description, images: [SHARE_IMAGE] },
+    twitter: { card: "summary_large_image", title, description, images: [SHARE_IMAGE] },
   };
 }
 

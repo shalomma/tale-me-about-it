@@ -30,8 +30,8 @@ export default async function HomePage() {
         </div>
         <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 pt-6 pb-16 sm:gap-10 sm:pt-10 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:pt-16 lg:pb-24">
           <div className="relative">
-            <Star className="absolute -top-2 left-6 size-7 animate-twinkle text-sun max-lg:hidden" />
-            <Moon className="absolute -bottom-10 left-24 size-9 animate-drift text-lilac/70 max-lg:hidden" />
+            <Star className="absolute -top-2 left-6 size-7 motion-safe:animate-twinkle text-sun max-lg:hidden" />
+            <Moon className="absolute -bottom-10 left-24 size-9 motion-safe:animate-drift text-lilac/70 max-lg:hidden" />
             <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-night-soft shadow-soft">
               <span className="size-2 rounded-full bg-sage" aria-hidden />
               לגילאי 3-5 · {books.length} ספרים במדף
@@ -138,10 +138,10 @@ export default async function HomePage() {
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[40px] bg-night px-5 py-16 text-white/80 sm:px-10 lg:py-24">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <Moon className="absolute top-10 left-10 size-14 text-sun/90" />
-            <Star className="absolute top-24 left-40 size-4 animate-twinkle text-white/70" />
-            <Star className="absolute top-14 right-[18%] size-3 animate-twinkle text-white/50 [animation-delay:1.2s]" />
-            <Star className="absolute right-10 bottom-24 size-5 animate-twinkle text-sun/70 [animation-delay:0.6s]" />
-            <Star className="absolute bottom-10 left-[30%] size-3 animate-twinkle text-white/40 [animation-delay:2s]" />
+            <Star className="absolute top-24 left-40 size-4 motion-safe:animate-twinkle text-white/70" />
+            <Star className="absolute top-14 right-[18%] size-3 motion-safe:animate-twinkle text-white/50 [animation-delay:0.9s]" />
+            <Star className="absolute right-10 bottom-24 size-5 motion-safe:animate-twinkle text-sun/70 [animation-delay:0.6s]" />
+            <Star className="absolute bottom-10 left-[30%] size-3 motion-safe:animate-twinkle text-white/40 [animation-delay:1s]" />
             <Cloud className="absolute -right-6 top-[38%] w-40 text-white/5" />
           </div>
 
@@ -178,7 +178,7 @@ export default async function HomePage() {
               </ol>
               <details className="group mt-4 max-w-2xl rounded-2xl bg-white/[0.04] ring-1 ring-white/10">
                 <summary className="cursor-pointer list-none px-5 py-3.5 font-medium text-white marker:hidden">
-                  <span className="me-2 inline-block text-sun transition group-open:rotate-90" aria-hidden>
+                  <span className="me-2 inline-block text-sun transition group-open:-rotate-90" aria-hidden>
                     ‹
                   </span>
                   הטקסט המלא להקראה

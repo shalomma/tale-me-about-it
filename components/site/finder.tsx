@@ -64,7 +64,7 @@ export function Finder({ books }: { books: PublicBook[] }) {
         )}
       </div>
 
-      <div key={state.step} className="animate-rise">
+      <div key={state.step} className="motion-safe:animate-rise">
         {state.step === "topic" && (
           <>
             <h2 ref={headingRef} tabIndex={-1} className="text-2xl font-semibold outline-none sm:text-[1.7rem]">
@@ -179,7 +179,7 @@ function Results({
       <div className="py-2 text-center">
         <div className="relative mx-auto mb-4 h-20 w-28" aria-hidden>
           <Cloud className="absolute top-4 right-0 w-24 text-sky-soft" />
-          <Star className="absolute top-0 left-1 size-6 animate-twinkle text-sun" />
+          <Star className="absolute top-0 left-1 size-6 motion-safe:animate-twinkle text-sun" />
         </div>
         <h2 ref={headingRef} tabIndex={-1} className="text-2xl font-semibold outline-none">
           המדף הזה עוד מתמלא

@@ -79,7 +79,7 @@ export function MoodPicker() {
 
       <div aria-live="polite" className="mx-auto mt-8 min-h-36 max-w-xl">
         {active ? (
-          <div key={active.id} className="animate-rise rounded-3xl bg-white/10 p-6 ring-1 ring-white/15 backdrop-blur">
+          <div key={active.id} className="motion-safe:animate-rise rounded-3xl bg-white/10 p-6 ring-1 ring-white/15 backdrop-blur">
             <p className="font-hand text-xl text-white">&quot;{active.kid}&quot;</p>
             <p className="mt-3 leading-relaxed text-white/80">
               <span className="font-semibold text-sun">להורה: </span>

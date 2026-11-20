@@ -54,7 +54,7 @@ export default function BookPage({ params }: PageProps<"/books/[id]">) {
 
 function BookSkeleton() {
   return (
-    <div className="mt-6 grid animate-pulse gap-10 md:grid-cols-[300px_1fr]">
+    <div className="mt-6 grid motion-safe:animate-pulse gap-10 md:grid-cols-[300px_1fr]">
       <div className="mx-auto aspect-[3/4] w-56 rounded-xl bg-paper-deep md:w-full" />
       <div className="space-y-4 pt-4">
         <div className="h-6 w-40 rounded-full bg-paper-deep" />
@@ -81,7 +81,7 @@ async function BookView({ id }: { id: string }) {
       <header className="mt-6 grid items-start gap-10 md:grid-cols-[minmax(0,300px)_1fr] lg:gap-16">
         <div className="relative mx-auto w-52 sm:w-60 md:w-full print:w-40">
           <div aria-hidden className="absolute -inset-6 -z-0 rounded-full bg-sun-soft/80 blur-2xl print:hidden" />
-          <Star className="absolute -top-3 -left-3 z-10 size-7 animate-twinkle text-sun print:hidden" />
+          <Star className="absolute -top-3 -left-3 z-10 size-7 motion-safe:animate-twinkle text-sun print:hidden" />
           <BookCover id={book.id} title={book.title} author={book.author} className="relative -rotate-2" />
         </div>
 

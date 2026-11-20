@@ -1,32 +1,80 @@
 @import "tailwindcss";
 
-/* Brand tokens carried over from the original Gemini app's Tailwind config. */
 @theme {
-  --color-primary: #9333ea; /* magic, imagination */
+  /* Public site: a warm bedtime-storybook palette. */
+  --color-paper: #fbf7f0; /* page background */
+  --color-paper-deep: #f3ebdd; /* quiet panels */
+  --color-night: #23274d; /* headings, primary buttons, night sections */
+  --color-night-soft: #484d72; /* body text (7.9:1 on paper) */
+  --color-night-mute: #6b6f8f; /* secondary text (4.9:1 on paper) */
+  --color-sun: #f6b941;
+  --color-sun-soft: #fde9bd;
+  --color-coral: #e7714f;
+  --color-coral-soft: #fbd9cc;
+  --color-sage: #6fae8c;
+  --color-sage-soft: #d5ebdf;
+  --color-sky: #6aa9d8;
+  --color-sky-soft: #d8eaf7;
+  --color-lilac: #9c84db;
+  --color-lilac-soft: #e7e0f8;
+  --color-rose: #e68a9c;
+  --color-rose-soft: #f9dce2;
+
+  /* Admin area (kept from the original prototype). */
+  --color-primary: #9333ea;
   --color-primary-light: #d8b4fe;
-  --color-secondary: #fbbf24; /* warmth, sun */
-  --color-cream: #fffbeb; /* page background */
+  --color-secondary: #fbbf24;
+  --color-cream: #fffbeb;
   --color-surface: #ffffff;
-  --color-ink: #5b21b6; /* body text */
-  --color-ink-dark: #4c1d95; /* headings */
+  --color-ink: #5b21b6;
+  --color-ink-dark: #4c1d95;
   --color-accent-pink: #f472b6;
   --color-accent-blue: #38bdf8;
   --color-accent-green: #34d399;
 
-  --font-sans: var(--font-heebo), system-ui, sans-serif;
-  --font-heading: var(--font-varela), var(--font-heebo), system-ui, sans-serif;
+  --font-sans: var(--font-rubik), system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-rubik), system-ui, sans-serif;
+  /* Spoken lines: questions and read-aloud text. */
+  --font-hand: var(--font-fredoka), var(--font-rubik), system-ui, sans-serif;
+  --font-heading: var(--font-display);
 
-  --shadow-soft: 0 10px 25px -5px rgb(147 51 234 / 0.1), 0 8px 10px -6px rgb(147 51 234 / 0.1);
+  --shadow-soft: 0 1px 2px rgb(35 39 77 / 0.06), 0 8px 24px -6px rgb(35 39 77 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(35 39 77 / 0.06), 0 18px 40px -12px rgb(35 39 77 / 0.22);
+  --shadow-book: -6px 10px 24px -8px rgb(35 39 77 / 0.35), -1px 2px 4px rgb(35 39 77 / 0.12);
   --shadow-floating: 0 20px 25px -5px rgb(147 51 234 / 0.15), 0 10px 10px -5px rgb(147 51 234 / 0.04);
 
-  --animate-float: float 6s ease-in-out infinite;
-  @keyframes float {
+  --animate-drift: drift 9s ease-in-out infinite;
+  --animate-twinkle: twinkle 3.5s ease-in-out infinite;
+  --animate-rise: rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes drift {
     0%,
     100% {
-      transform: translateY(0);
+      transform: translateY(0) rotate(0deg);
     }
     50% {
-      transform: translateY(-15px);
+      transform: translateY(-10px) rotate(3deg);
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.85);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
@@ -39,39 +87,36 @@ body {
   background: #fff;
 }
 
-/* Public site background: warm cream with a soft dotted pattern. */
-.site-bg {
-  background-color: var(--color-cream);
-  background-image: radial-gradient(var(--color-primary-light) 0.5px, transparent 0.5px);
-  background-size: 30px 30px;
-  background-attachment: fixed;
-  color: var(--color-ink);
-}
+@layer base {
+  .site {
+    background: var(--color-paper);
+    color: var(--color-night-soft);
+  }
 
-.site-bg h1,
-.site-bg h2,
-.site-bg h3,
-.site-bg h4 {
-  font-family: var(--font-heading);
-}
+  .site :where(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    color: var(--color-night);
+    text-wrap: balance;
+  }
 
-.glass-card {
-  background: rgb(255 255 255 / 0.85);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgb(255 255 255 / 0.5);
-}
+  .site :where(p) {
+    text-wrap: pretty;
+  }
 
-.magic-border {
-  position: relative;
-}
-.magic-border::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  inset-inline: 0;
-  height: 4px;
-  background: linear-gradient(to left, var(--color-secondary), var(--color-accent-pink));
-  border-radius: 4px;
+  /* A hand-drawn underline for one highlighted word in a heading. */
+  .scribble {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 14' preserveAspectRatio='none'%3E%3Cpath d='M3 9c30-6 60-7 95-4s70 3 99-2' fill='none' stroke='%23f6b941' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom 0.02em center;
+    background-size: 100% 0.32em;
+    padding-bottom: 0.08em;
+  }
+
+  /* Paper grain, very light, for warm panels. */
+  .grain {
+    background-image: radial-gradient(rgb(35 39 77 / 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -83,5 +128,11 @@ body {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+@media print {
+  .site {
+    background: #fff;
   }
 }

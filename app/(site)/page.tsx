@@ -1,20 +1,20 @@
 import {
-  BookOpenText,
+  BookOpen,
   Check,
+  CirclePause,
   Drama,
-  Equal,
+  Hand,
   Heart,
-  Layers,
-  Lightbulb,
-  Puzzle,
-  Quote,
-  Sprout,
-  Star,
-  Sun,
+  Leaf,
+  Link2,
+  Sparkles,
+  Wind,
   Wrench,
 } from "lucide-react";
+import { Cloud, Moon, Squiggle, Star } from "@/components/site/doodles";
+import { Finder } from "@/components/site/finder";
 import { Library } from "@/components/site/library";
-import { SmartMatch } from "@/components/site/smart-match";
+import { MoodPicker } from "@/components/site/mood-picker";
 import { getPublishedBooks } from "@/lib/catalog/queries";
 
 export default async function HomePage() {
@@ -22,237 +22,229 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex min-h-[90vh] items-center overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
-        <Star className="absolute top-40 right-10 size-14 animate-float fill-primary-light text-primary-light opacity-30" aria-hidden />
-        <Sun className="absolute top-24 left-20 size-12 animate-float text-secondary opacity-40 [animation-delay:1s]" aria-hidden />
-        <Heart className="absolute right-32 bottom-20 size-10 animate-float fill-accent-pink text-accent-pink opacity-40 [animation-delay:2s]" aria-hidden />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <div className="mb-8 inline-flex size-24 animate-bounce items-center justify-center rounded-full bg-surface text-5xl shadow-soft" aria-hidden>
-            🦋
-          </div>
-          <h1 className="mb-6 text-4xl leading-tight font-bold text-ink-dark sm:text-5xl lg:text-7xl">
-            ברוכים הבאים לעולם שבו
-            <br />
-            <span className="magic-border text-primary">לכל רגש יש סיפור</span>
-          </h1>
-          <p className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed font-medium sm:text-2xl">
-            ולכל סיפור יש מקום בלב. אפליקציה זו נועדה לעזור לכם, ההורים, לתווך לילדיכם עולמות רגשיים מורכבים דרך הקסם של המילה הכתובה והדמיון.
-          </p>
-          <a
-            href="#smart-match"
-            className="mx-auto inline-flex items-center gap-3 rounded-full bg-secondary px-8 py-4 font-heading text-xl font-bold text-ink-dark shadow-floating transition hover:-translate-y-1 hover:bg-yellow-500"
-          >
-            <BookOpenText className="size-6" aria-hidden />
-            מתחילים לקרוא
-          </a>
+      {/* Hero + finder */}
+      <section id="find" className="relative scroll-mt-16">
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-32 -left-24 size-[28rem] rounded-full bg-sun-soft/70 blur-3xl" />
+          <div className="absolute top-40 -right-32 size-[22rem] rounded-full bg-lilac-soft/60 blur-3xl" />
         </div>
-      </section>
-
-      {/* Vision */}
-      <section id="vision" className="relative z-10 scroll-mt-24 py-20">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="glass-card relative overflow-hidden rounded-3xl p-8 shadow-soft lg:p-12">
-            <h2 className="mb-6 flex items-center gap-3 text-3xl font-bold text-ink-dark lg:text-4xl">
-              <Sprout className="size-9 text-accent-green" aria-hidden /> למה לספר סיפור?
-            </h2>
-            <p className="mb-8 text-lg leading-relaxed">
-              בגילאי 3-5, הילדים שלכם עוברים מהפכה רגשית. הם מרגישים הכל בעוצמה, אבל לא תמיד יודעים לקרוא לזה בשם. הביבליותרפיה (ריפוי דרך ספרים) פותחת בפניהם דלת בטוחה:
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 pt-6 pb-16 sm:gap-10 sm:pt-10 sm:px-6 lg:grid-cols-[1fr_1.05fr] lg:gap-14 lg:pt-16 lg:pb-24">
+          <div className="relative">
+            <Star className="absolute -top-2 left-6 size-7 animate-twinkle text-sun max-lg:hidden" />
+            <Moon className="absolute -bottom-10 left-24 size-9 animate-drift text-lilac/70 max-lg:hidden" />
+            <p className="mb-5 inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-night-soft shadow-soft">
+              <span className="size-2 rounded-full bg-sage" aria-hidden />
+              לגילאי 3–5 · {books.length} ספרים במדף
             </p>
-            <div className="grid gap-6 md:grid-cols-3">
-              {[
-                { icon: Drama, bg: "bg-purple-100 text-primary", title: "השלכה", text: '"זה לא אני שמפחד, זה הגיבור בסיפור". קל יותר לדבר על קושי כשהוא קורה למישהו אחר.' },
-                { icon: Equal, bg: "bg-pink-100 text-accent-pink", title: "נרמול", text: '"גם הדובי הרגיש ככה, אז זה בסדר". הבנה שהרגשות שלי טבעיים ושכולם חווים אותם.' },
-                { icon: Wrench, bg: "bg-yellow-100 text-secondary", title: "ארגז כלים", text: "למידת פתרונות יצירתיים למצבים יומיומיים דרך התמודדות מוצלחת של הדמויות בסיפור." },
-              ].map(({ icon: Icon, bg, title, text }) => (
-                <div key={title} className="rounded-2xl border border-purple-100 bg-surface p-6 shadow-sm transition hover:scale-105">
-                  <div className={`mb-4 flex size-12 items-center justify-center rounded-full ${bg}`}>
-                    <Icon className="size-6" aria-hidden />
-                  </div>
-                  <h3 className="mb-2 text-xl font-bold text-ink-dark">{title}</h3>
-                  <p>{text}</p>
-                </div>
+            <h1 className="text-[2.6rem] leading-[1.08] font-semibold sm:text-6xl lg:text-[4.2rem]">
+              כשקשה לדבר,
+              <br />
+              <span className="scribble">אפשר לקרוא</span>
+            </h1>
+            <p className="mt-5 max-w-lg text-lg leading-relaxed sm:mt-6 sm:text-xl">
+              ספרי תמונות שנבחרו בקפידה לילדים שעוברים שינוי, ולכל ספר שאלות פשוטות לשאול תוך כדי קריאה. ענו על שתי שאלות,
+              ונמצא לכם את הספר המתאים.
+            </p>
+            <ul className="mt-7 space-y-2.5 max-sm:hidden">
+              {["כל ספר מנותח: שפה, עלילה, מסר רגשי ואיורים", "שאלות שיחה מוכנות לכל ספר", "בלי הרשמה ובלי פרסומות"].map((t) => (
+                <li key={t} className="flex items-center gap-3">
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-sage-soft text-[#3c7a59]">
+                    <Check className="size-3.5" strokeWidth={3} aria-hidden />
+                  </span>
+                  {t}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
+          <Finder books={books} />
         </div>
       </section>
 
-      {/* Smart match */}
-      <section id="smart-match" className="scroll-mt-24 border-y-4 border-white bg-white/60 py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <div className="mb-4 inline-block rounded-full bg-primary p-4 text-4xl shadow-soft" aria-hidden>
-              🦉
-            </div>
-            <h2 className="mb-4 text-4xl font-bold text-ink-dark">הסיפור הנכון בזמן הנכון</h2>
-            <p className="mx-auto max-w-3xl text-xl">
-              המערכת שלנו בוחרת באופן חכם את הספר המדויק ביותר עבור הילד שלכם, בהתבסס על ההתמודדות הנוכחית ועל הניסיון שלו בקריאה.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-start gap-10 lg:flex-row">
-            <div className="space-y-8 lg:w-1/2">
-              <div className="rounded-2xl border-s-4 border-accent-pink bg-surface p-6 shadow-sm">
-                <h3 className="mb-2 flex items-center gap-2 text-2xl font-bold text-ink-dark">
-                  <Puzzle className="size-6 text-accent-pink" aria-hidden /> התאמה לנושא או למשבר
-                </h3>
-                <p className="text-lg leading-relaxed">
-                  בין אם מדובר בשינוי שגרתי או במשבר חיים מורכב, נאתר סיפור שנוגע בדיוק בנקודה הנכונה: מעבר דירה, התמודדות עם מחלה או ניתוח (של הילד או קרוב משפחה), מוות ופציעות, גירושין, דחייה חברתית ועוד.
-                </p>
-              </div>
-              <div className="rounded-2xl border-s-4 border-secondary bg-surface p-6 shadow-sm">
-                <h3 className="mb-2 flex items-center gap-2 text-2xl font-bold text-ink-dark">
-                  <Layers className="size-6 text-secondary" aria-hidden /> התאמה לניסיון הקריאה
-                </h3>
-                <p className="text-lg leading-relaxed">
-                  סיפור טוב צריך להתאים ליכולת ההקשבה של הילד. אנחנו מתאימים את אורך הטקסט ומורכבות השפה לניסיון הקודם שלו:
-                </p>
-                <ul className="mt-4 space-y-2 font-medium">
-                  {[
-                    "מנוסה מאוד - מסוגל להקשיב לסיפורים ארוכים ומורכבים.",
-                    "מקריאים לו לעיתים רחוקות - סיפורים באורך בינוני עם איורים מרובים.",
-                    "חסר ניסיון - טקסטים קצרים, פשוטים וממוקדים, עם דגש על ויזואליה.",
-                  ].map((t) => (
-                    <li key={t} className="flex items-center gap-2">
-                      <Check className="size-5 shrink-0 text-green-500" aria-hidden /> {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="w-full lg:w-1/2">
-              <SmartMatch books={books} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Opening ritual */}
-      <section id="ritual" className="scroll-mt-24 py-20">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <div className="relative mb-6 inline-block">
-            <div className="relative z-10 flex size-24 items-center justify-center rounded-full bg-surface text-6xl shadow-soft" aria-hidden>
-              🐻
-            </div>
-            <div className="absolute inset-0 animate-ping rounded-full bg-purple-200 opacity-75 [animation-duration:3s]" aria-hidden />
-          </div>
-          <h2 className="mb-6 text-3xl font-bold text-ink-dark lg:text-4xl">טקס הפתיחה: מתכוננים לקסם</h2>
-          <p className="mx-auto mb-10 max-w-2xl text-xl">
-            מומלץ ליצור &quot;טקס&quot; קבוע בכל פעם שפותחים את האפליקציה, כדי לאותת לילד שמתחיל זמן מיוחד של קשב ורוגע.
-          </p>
-          <blockquote className="glass-card relative rounded-3xl p-8 text-start text-lg leading-loose italic shadow-soft lg:p-10 lg:text-xl">
-            <Quote className="absolute top-6 right-6 size-10 text-primary-light opacity-50" aria-hidden />
-            &quot;שלום חבר קטן! ברוך הבא לממלכת הסיפורים.
-            <br />
-            לפני שנפתח את הספר הקסום שלנו, בוא נעשה משהו קטן יחד:
-            <br />
-            תניח יד אחת על הלב... אתה מרגיש אותו דופק?
-            <br />
-            עכשיו, קח נשימה עמוקה כמו שואב אבק... 💨
-            <br />
-            ותוציא אותה לאט כמו רוח נושבת... 🍃
-            <br />
-            יופי! עכשיו הלב שלנו מוכן להקשיב.&quot;
-          </blockquote>
-        </div>
-      </section>
-
-      {/* Heart keys */}
-      <section id="heart-keys" className="scroll-mt-24 bg-white/50 py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 text-center">
-            <h2 className="mb-4 text-3xl font-bold text-ink-dark lg:text-4xl">בחירת &quot;מפתח הלב&quot;</h2>
-            <p className="mx-auto max-w-2xl text-xl">
-              במקום תפריט מורכב, תנו לילד לבחור את האייקון שמשקף את הרגש הנוכחי שלו, כדי להתאים עבורו את האווירה הנכונה.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+      {/* How it works */}
+      <section aria-labelledby="how-title" className="px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl rounded-[32px] bg-white px-6 py-10 shadow-soft sm:px-10">
+          <h2 id="how-title" className="sr-only">
+            איך זה עובד
+          </h2>
+          <ol className="grid gap-8 md:grid-cols-3 md:gap-6">
             {[
-              { emoji: "☀️", title: "שמש מחייכת", text: "אני מרגיש שמח ורוצה לחגוג!", border: "border-secondary" },
-              { emoji: "🌧️", title: "ענן עם גשם", text: "משהו קצת עצוב לי היום.", border: "border-accent-blue" },
-              { emoji: "⚡", title: "ברק אדום", text: "אני מרגיש כועס מאוד!", border: "border-red-400" },
-              { emoji: "🌙", title: "ירח מנצנץ", text: "אני רוצה להירגע לפני השינה.", border: "border-indigo-400" },
-            ].map((k) => (
-              <div key={k.title} className={`rounded-3xl border-b-4 bg-surface p-8 text-center shadow-soft transition hover:-translate-y-2 ${k.border}`}>
-                <div className="mb-4 text-6xl" aria-hidden>
-                  {k.emoji}
+              { title: "בוחרים מה קורה", text: "מעבר, מחלה, פרידה או קושי עם חברים. נושא אחד, בלחיצה.", color: "bg-sun-soft text-[#7a5208]" },
+              { title: "מקבלים ספר מתאים", text: "לפי הנושא ולפי כמה הילד רגיל להקשיב לסיפורים.", color: "bg-sky-soft text-[#2f6e9c]" },
+              { title: "קוראים ומדברים", text: "עם שאלות מוכנות שעוזרות לילד לספר מה הוא מרגיש.", color: "bg-rose-soft text-[#a4485b]" },
+            ].map((s, i) => (
+              <li key={s.title} className="flex gap-4">
+                <span className={`flex size-11 shrink-0 items-center justify-center rounded-2xl font-display text-xl font-semibold ${s.color}`}>
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="text-xl font-semibold">{s.title}</h3>
+                  <p className="mt-1 leading-relaxed">{s.text}</p>
                 </div>
-                <h3 className="mb-2 text-xl font-bold text-ink-dark">{k.title}</h3>
-                <p className="font-medium">&quot;{k.text}&quot;</p>
-              </div>
+              </li>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Parent tips + closing */}
-      <section className="relative py-20">
-        <div className="mx-auto flex max-w-7xl flex-col gap-12 px-4 sm:px-6 lg:flex-row lg:px-8">
-          <div className="lg:w-1/2">
-            <div className="h-full rounded-3xl border border-purple-100 bg-purple-50 p-8">
-              <div className="mb-6 flex items-center gap-3">
-                <Lightbulb className="size-8 text-primary" aria-hidden />
-                <h2 className="text-2xl font-bold text-ink-dark">איך לדבר על זה? (הנחיות להורה)</h2>
-              </div>
-              <p className="mb-6">במהלך הקריאה, יופיעו בועות קטנות להורה שיעזרו לכם לתווך את הסיפור:</p>
-              <div className="space-y-6">
-                {[
-                  { emoji: "🛑", title: "עצרו רגע", text: "מה אתם חושבים שהארנב מרגיש עכשיו?" },
-                  { emoji: "🔗", title: "חברו למציאות", text: "גם לך קרה פעם שהרגשת שאתה רוצה לצעוק חזק כמוהו?" },
-                  { emoji: "✨", title: "סוף פתוח", text: "מה לדעתך יקרה מחר בבוקר בסיפור?" },
-                ].map((t) => (
-                  <div key={t.title} className="flex gap-4 rounded-xl bg-surface p-4 shadow-sm">
-                    <div className="mt-1 text-2xl" aria-hidden>
-                      {t.emoji}
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-bold text-ink-dark">{t.title}</h4>
-                      <p>&quot;{t.text}&quot;</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center lg:w-1/2">
-            <div className="glass-card w-full rounded-3xl border-4 border-white p-10 text-center shadow-floating">
-              <div className="mb-6 text-6xl" aria-hidden>
-                🌟
-              </div>
-              <h2 className="mb-6 text-3xl font-bold text-ink-dark">מסר סיום ופרידה</h2>
-              <p className="font-heading text-2xl leading-relaxed">
-                &quot;תודה שביקרתם בממלכה שלנו.
-                <br />
-                הסיפור נגמר, אבל הוא נשאר איתכם בלב לכל היום.
-                <br />
-                חיבוק גדול, ונתראה בסיפור הבא!&quot;
-              </p>
-              <a
-                href="#library"
-                className="mt-10 inline-block rounded-full bg-primary px-8 py-3 text-lg font-bold text-white shadow-md transition hover:scale-105 hover:bg-purple-700"
-              >
-                התחילו את המסע בספרייה
-              </a>
-            </div>
-          </div>
+          </ol>
         </div>
       </section>
 
       {/* Library */}
-      <section id="library" className="relative z-10 scroll-mt-24 border-t-4 border-dashed border-primary-light py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <div className="mb-6 inline-flex size-20 items-center justify-center rounded-full bg-white text-4xl shadow-soft" aria-hidden>
-              📚
-            </div>
-            <h2 className="mb-4 text-4xl font-bold text-ink-dark">הספרייה החכמה</h2>
-            <p className="mx-auto max-w-3xl text-xl">
-              כל ספר מנותח באופן פסיכו-פדגוגי: שפה, נושא, מסר רגשי, איורים, ושאלות שיעזרו לכם לדבר עם הילד על מה שהוא מרגיש.
+      <section id="library" aria-labelledby="library-title" className="scroll-mt-16 px-4 pt-24 pb-20 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 max-w-2xl">
+            <Squiggle className="mb-3 w-20 text-coral" />
+            <h2 id="library-title" className="text-4xl font-semibold sm:text-5xl">
+              המדף שלנו
+            </h2>
+            <p className="mt-3 text-lg leading-relaxed">
+              {books.length} ספרים שבחרנו אחד אחד. לחצו על ספר כדי לראות על מה הוא באמת, ואילו שאלות כדאי לשאול בזמן הקריאה.
             </p>
           </div>
           <Library books={books} />
+        </div>
+      </section>
+
+      {/* Why stories */}
+      <section id="why" aria-labelledby="why-title" className="scroll-mt-16 px-4 py-20 sm:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="max-w-2xl">
+            <h2 id="why-title" className="text-4xl font-semibold sm:text-5xl">
+              למה דווקא <span className="scribble">סיפור</span>?
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed">
+              בגילאי 3–5 ילדים מרגישים הכל בעוצמה, אבל לא תמיד יודעים לקרוא לזה בשם. ספר נותן להם דלת בטוחה: אפשר לדבר על הגיבור,
+              ובדרך לדבר גם על עצמם.
+            </p>
+            <p className="mt-3 leading-relaxed text-night-mute">לשיטה הזו קוראים ביבליותרפיה: עזרה רגשית דרך ספרים.</p>
+          </div>
+          <ul className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: Drama, title: "השלכה", text: "\"זה לא אני שמפחד, זה הגיבור.\" קל יותר לדבר על קושי כשהוא קורה למישהו אחר.", color: "bg-lilac-soft text-[#5b45a3]" },
+              { icon: Heart, title: "נרמול", text: "\"גם הדובי הרגיש ככה.\" הילד מגלה שהרגשות שלו טבעיים, ושגם אחרים מרגישים אותם.", color: "bg-rose-soft text-[#a4485b]" },
+              { icon: Wrench, title: "ארגז כלים", text: "הגיבור מוצא פתרון, והילד לוקח איתו רעיון חדש להתמודדות בעולם האמיתי.", color: "bg-sage-soft text-[#3c7a59]" },
+            ].map(({ icon: Icon, title, text, color }) => (
+              <li key={title} className="rounded-3xl bg-white p-6 shadow-soft">
+                <span className={`mb-4 flex size-12 items-center justify-center rounded-2xl ${color}`}>
+                  <Icon className="size-6" aria-hidden />
+                </span>
+                <h3 className="text-xl font-semibold">{title}</h3>
+                <p className="mt-1.5 leading-relaxed">{text}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Reading together: the bedtime section */}
+      <section id="together" aria-labelledby="together-title" className="scroll-mt-16 px-3 pb-20 sm:px-4">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[40px] bg-night px-5 py-16 text-white/80 sm:px-10 lg:py-24">
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <Moon className="absolute top-10 left-10 size-14 text-sun/90" />
+            <Star className="absolute top-24 left-40 size-4 animate-twinkle text-white/70" />
+            <Star className="absolute top-14 right-[18%] size-3 animate-twinkle text-white/50 [animation-delay:1.2s]" />
+            <Star className="absolute right-10 bottom-24 size-5 animate-twinkle text-sun/70 [animation-delay:0.6s]" />
+            <Star className="absolute bottom-10 left-[30%] size-3 animate-twinkle text-white/40 [animation-delay:2s]" />
+            <Cloud className="absolute -right-6 top-[38%] w-40 text-white/5" />
+          </div>
+
+          <div className="relative mx-auto max-w-5xl">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 id="together-title" className="text-4xl font-semibold text-white sm:text-5xl">
+                קוראים יחד
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed">
+                הספר הוא רק ההתחלה. הנה שלושה הרגלים קטנים שהופכים קריאה לשיחה, ומתאימים לכל ספר בבית.
+              </p>
+            </div>
+
+            {/* 1. Opening ritual */}
+            <div className="mt-16">
+              <h3 className="flex items-center gap-3 text-2xl font-semibold text-white">
+                <span className="flex size-9 items-center justify-center rounded-full bg-sun font-display text-lg text-night">1</span>
+                טקס פתיחה קטן
+              </h3>
+              <p className="mt-2 max-w-2xl">דקה של רוגע לפני שפותחים את הספר מסמנת לילד שמתחיל זמן מיוחד של קשב.</p>
+              <ol className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+                {[
+                  { icon: Hand, title: "יד על הלב", text: "\"אתה מרגיש אותו דופק?\"" },
+                  { icon: Wind, title: "שואפים עמוק", text: "\"כמו שואב אבק...\"" },
+                  { icon: Leaf, title: "נושפים לאט", text: "\"כמו רוח נושבת...\"" },
+                  { icon: BookOpen, title: "פותחים את הספר", text: "\"עכשיו הלב מוכן להקשיב.\"" },
+                ].map(({ icon: Icon, title, text }) => (
+                  <li key={title} className="rounded-3xl bg-white/[0.06] p-5 ring-1 ring-white/10">
+                    <Icon className="size-7 text-sun" aria-hidden />
+                    <p className="mt-3 font-display text-lg font-semibold text-white">{title}</p>
+                    <p className="mt-1 font-hand text-white/70">{text}</p>
+                  </li>
+                ))}
+              </ol>
+              <details className="group mt-4 max-w-2xl rounded-2xl bg-white/[0.04] ring-1 ring-white/10">
+                <summary className="cursor-pointer list-none px-5 py-3.5 font-medium text-white marker:hidden">
+                  <span className="me-2 inline-block text-sun transition group-open:rotate-90" aria-hidden>
+                    ‹
+                  </span>
+                  הטקסט המלא להקראה
+                </summary>
+                <p className="px-5 pb-5 font-hand text-lg leading-loose text-white/85">
+                  &quot;שלום חבר קטן! ברוך הבא לממלכת הסיפורים.
+                  <br />
+                  לפני שנפתח את הספר הקסום שלנו, בוא נעשה משהו קטן יחד:
+                  <br />
+                  תניח יד אחת על הלב... אתה מרגיש אותו דופק?
+                  <br />
+                  עכשיו, קח נשימה עמוקה כמו שואב אבק...
+                  <br />
+                  ותוציא אותה לאט כמו רוח נושבת...
+                  <br />
+                  יופי! עכשיו הלב שלנו מוכן להקשיב.&quot;
+                </p>
+              </details>
+            </div>
+
+            {/* 2. Heart keys */}
+            <div className="mt-20">
+              <h3 className="flex items-center gap-3 text-2xl font-semibold text-white">
+                <span className="flex size-9 items-center justify-center rounded-full bg-sun font-display text-lg text-night">2</span>
+                איך מרגישים היום?
+              </h3>
+              <p className="mt-2 mb-10 max-w-2xl">תנו לילד לבחור. זה המקום היחיד באתר שהוא בשבילו.</p>
+              <MoodPicker />
+            </div>
+
+            {/* 3. During reading */}
+            <div className="mt-16">
+              <h3 className="flex items-center gap-3 text-2xl font-semibold text-white">
+                <span className="flex size-9 items-center justify-center rounded-full bg-sun font-display text-lg text-night">3</span>
+                תוך כדי קריאה
+              </h3>
+              <p className="mt-2 max-w-2xl">אין צורך לשאול הכל. שאלה אחת טובה בעמוד הנכון שווה יותר מעשר.</p>
+              <ul className="mt-6 grid gap-3 md:grid-cols-3">
+                {[
+                  { icon: CirclePause, title: "עצרו רגע", text: "\"מה אתה חושב שהארנב מרגיש עכשיו?\"" },
+                  { icon: Link2, title: "חברו למציאות", text: "\"גם לך קרה פעם שרצית לצעוק חזק כמוהו?\"" },
+                  { icon: Sparkles, title: "השאירו סוף פתוח", text: "\"מה לדעתך יקרה בסיפור מחר בבוקר?\"" },
+                ].map(({ icon: Icon, title, text }) => (
+                  <li key={title} className="rounded-3xl bg-white p-6 text-night-soft">
+                    <Icon className="size-7 text-coral" aria-hidden />
+                    <p className="mt-3 font-display text-lg font-semibold text-night">{title}</p>
+                    <p className="mt-1 font-hand text-lg leading-relaxed">{text}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="mx-auto mt-20 max-w-xl text-center font-hand text-2xl leading-relaxed text-white">
+              &quot;הסיפור נגמר, אבל הוא נשאר איתנו בלב.
+              <br />
+              חיבוק גדול, ונתראה בסיפור הבא!&quot;
+            </p>
+            <div className="mt-8 text-center">
+              <a
+                href="#find"
+                className="inline-flex items-center gap-2 rounded-full bg-sun px-7 py-3.5 font-display text-lg font-semibold text-night transition hover:-translate-y-0.5 hover:bg-[#f8c55e]"
+              >
+                מצאו את הספר הבא
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </>

@@ -1,19 +1,28 @@
-import type { Metadata } from "next";
-import { Heebo, Varela_Round } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fredoka, Rubik } from "next/font/google";
 import "./globals.css";
 
-const heebo = Heebo({ subsets: ["hebrew", "latin"], variable: "--font-heebo" });
-const varela = Varela_Round({ weight: "400", subsets: ["hebrew", "latin"], variable: "--font-varela" });
+const rubik = Rubik({ subsets: ["hebrew", "latin"], variable: "--font-rubik" });
+const fredoka = Fredoka({ subsets: ["hebrew", "latin"], variable: "--font-fredoka" });
 
 export const metadata: Metadata = {
-  title: { default: "ספרו לי על זה - קסם הביבליותרפיה", template: "%s | ספרו לי על זה" },
+  title: { default: "ספרו לי על זה · ספרים שעוזרים לדבר על מה שקשה", template: "%s | ספרו לי על זה" },
   description:
-    "ספרים מותאמים אישית שעוזרים להורים לתווך לילדים בגילאי 3-5 עולמות רגשיים מורכבים: מעבר דירה, גן חדש, פרידה ועוד.",
+    "ספרי תמונות שנבחרו בקפידה לילדים בני 3–5 שעוברים שינוי, עם שאלות פשוטות להורים לשאול תוך כדי קריאה.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#fbf7f0",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" data-scroll-behavior="smooth" className={`${heebo.variable} ${varela.variable}`}>
+    <html
+      lang="he"
+      dir="rtl"
+      data-scroll-behavior="smooth"
+      className={`${rubik.variable} ${fredoka.variable}`}
+    >
       <body className="font-sans antialiased">{children}</body>
     </html>
   );

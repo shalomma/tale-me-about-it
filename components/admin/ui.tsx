@@ -13,11 +13,14 @@ const VARIANTS: Record<Variant, string> = {
 
 export function Button({
   variant = "secondary",
+  type = "button",
   className,
   ...props
 }: ComponentProps<"button"> & { variant?: Variant }) {
+  // Default to type="button" so buttons inside a form only submit when asked to.
   return (
     <button
+      type={type}
       className={cx(
         "inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 disabled:cursor-not-allowed",
         VARIANTS[variant],
@@ -33,7 +36,7 @@ export function Card({ className, ...props }: ComponentProps<"div">) {
 }
 
 const inputBase =
-  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-200";
+  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-200 user-invalid:border-red-500 user-invalid:ring-red-100";
 
 export function Input({ className, ...props }: ComponentProps<"input">) {
   return <input className={cx(inputBase, className)} {...props} />;

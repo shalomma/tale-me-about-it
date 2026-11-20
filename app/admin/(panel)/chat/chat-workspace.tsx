@@ -58,14 +58,19 @@ export function ChatWorkspace({
   const [error, setError] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [tab, setTab] = useState<Tab>(initial.draft ? "draft" : "prompt");
+  const [announcement, setAnnouncement] = useState("");
   const abortRef = useRef<AbortController | null>(null);
-  const endRef = useRef<HTMLDivElement>(null);
+  const logRef = useRef<HTMLDivElement>(null);
+  const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
   const draftRef = useRef<Draft | null>(initial.draft);
+  // Follow new output only while the reader is at the bottom, so scrolling up to read isn't undone.
+  const stickToBottom = useRef(true);
 
   const items = [...chat.transcript, ...live];
   useEffect(() => {
-    endRef.current?.scrollIntoView({ block: "end" });
-  }, [items.length, live]);
+    const log = logRef.current;
+    if (log && stickToBottom.current) log.scrollTop = log.scrollHeight;
+  }, [items.length, live, running, error]);
 
   /** Keeps the replaced draft so the panel can mark what the latest update changed. */
   function setDraft(draft: Draft | null) {
@@ -81,6 +86,8 @@ export function ChatWorkspace({
     setRunning(true);
     setError(null);
     setInput("");
+    setAnnouncement("הסוכן עובד…");
+    stickToBottom.current = true;
     setChat((c) => ({ ...c, transcript: [...c.transcript, { kind: "user", text: message }] }));
     setLive([]);
     const controller = new AbortController();
@@ -121,6 +128,7 @@ export function ChatWorkspace({
       setLive([]);
       setRunning(false);
       abortRef.current = null;
+      setAnnouncement(finished ? "הסוכן סיים לענות" : "הסוכן נעצר");
     }
   }
 
@@ -207,14 +215,30 @@ export function ChatWorkspace({
           )}
         </header>
 
-        <div className="flex-1 space-y-3 overflow-y-auto px-5 py-4" aria-live="polite">
+        {/* One short status in a live region. Making the whole transcript live would have
+            screen readers read every streamed fragment. */}
+        <p className="sr-only" aria-live="polite">
+          {announcement}
+        </p>
+        <div
+          ref={logRef}
+          onScroll={(e) => {
+            const el = e.currentTarget;
+            stickToBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+          }}
+          role="log"
+          aria-live="off"
+          aria-label="השיחה"
+          tabIndex={0}
+          className="flex-1 space-y-3 overflow-y-auto px-5 py-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-violet-600"
+        >
           {items.length === 0 && <EmptyState seedTitle={seedBook?.title ?? null} />}
           {items.map((item, i) => (
             <Item key={i} item={item} />
           ))}
           {running && (
             <p className="flex items-center gap-1.5 text-xs text-violet-700">
-              <LoaderCircle className="size-3.5 animate-spin" aria-hidden />
+              <LoaderCircle className="size-3.5 motion-safe:animate-spin" aria-hidden />
               הסוכן עובד…
             </p>
           )}
@@ -224,7 +248,6 @@ export function ChatWorkspace({
               {error}
             </p>
           )}
-          <div ref={endRef} />
         </div>
 
         <form
@@ -254,15 +277,16 @@ export function ChatWorkspace({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
-                  e.preventDefault();
-                  send(input);
-                }
+                if (e.key !== "Enter" || e.shiftKey) return;
+                e.preventDefault();
+                // Enter that confirms an IME composition must not send. keyCode 229 catches
+                // Safari, which clears isComposing before this handler runs.
+                if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+                e.currentTarget.form?.requestSubmit();
               }}
-              rows={2}
               placeholder={chat.transcript.length || seedBook ? "כתבו לסוכן…" : "שם הספר (ואם אפשר סופר/ת), או כל שאלה"}
               aria-label="הודעה לסוכן"
-              className="max-h-48 min-h-11 flex-1 resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm leading-relaxed placeholder:text-zinc-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 focus:outline-none"
+              className="field-sizing-content max-h-48 min-h-16 flex-1 resize-y rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm leading-relaxed placeholder:text-zinc-400 focus:border-violet-500 focus:ring-2 focus:ring-violet-200 focus:outline-none"
             />
             {running ? (
               <Button type="button" onClick={() => abortRef.current?.abort()} aria-label="עצירה">
@@ -280,23 +304,43 @@ export function ChatWorkspace({
 
       {/* Side panel */}
       <div className="xl:h-[calc(100dvh-5rem)] xl:overflow-y-auto">
-        <div role="tablist" className="mb-3 flex gap-1 rounded-xl border border-zinc-200 bg-white p-1">
+        <div
+          role="tablist"
+          aria-label="לוח צד"
+          onKeyDown={(e) => {
+            // Arrow keys move between tabs and select them (selection follows focus).
+            // Next is to the left in RTL.
+            const i = TABS.findIndex((t) => t.id === tab);
+            const step = { ArrowLeft: 1, ArrowRight: -1, Home: -i, End: TABS.length - 1 - i }[e.key];
+            if (step === undefined) return;
+            e.preventDefault();
+            const next = TABS[(i + step + TABS.length) % TABS.length].id;
+            setTab(next);
+            tabRefs.current[next]?.focus();
+          }}
+          className="mb-3 flex gap-1 overflow-x-auto rounded-xl border border-zinc-200 bg-white p-1"
+        >
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
+              ref={(el) => {
+                tabRefs.current[id] = el;
+              }}
+              id={`tab-${id}`}
+              type="button"
               role="tab"
               aria-selected={tab === id}
+              tabIndex={tab === id ? 0 : -1}
               onClick={() => setTab(id)}
-              className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-sm ${
-                tab === id ? "bg-violet-50 font-medium text-violet-800" : "text-zinc-600 hover:bg-zinc-50"
-              }`}
+              className="relative flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-sm whitespace-nowrap text-zinc-600 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-violet-600 aria-selected:bg-violet-50 aria-selected:text-violet-800 aria-selected:after:absolute aria-selected:after:inset-x-2 aria-selected:after:bottom-0 aria-selected:after:border-b-2 aria-selected:after:border-violet-600"
             >
               <Icon className="size-4" aria-hidden />
               {label}
             </button>
           ))}
         </div>
-        {tab === "draft" && (
+        {/* All panels stay mounted (hidden when not selected), so unsaved text in one survives switching tabs. */}
+        <div role="tabpanel" id="panel-draft" aria-labelledby="tab-draft" hidden={tab !== "draft"}>
           <DraftPanel
             chatId={chat.id}
             draft={chat.draft}
@@ -306,9 +350,13 @@ export function ChatWorkspace({
             busy={running}
             onSaved={(bookId, savedAt) => setChat((c) => ({ ...c, bookId, savedAt }))}
           />
-        )}
-        {tab === "prompt" && <PromptPanel settings={settings} basePrompt={basePrompt} />}
-        {tab === "chats" && <ChatsPanel chats={chats} currentId={chat.id} />}
+        </div>
+        <div role="tabpanel" id="panel-prompt" aria-labelledby="tab-prompt" hidden={tab !== "prompt"}>
+          <PromptPanel settings={settings} basePrompt={basePrompt} />
+        </div>
+        <div role="tabpanel" id="panel-chats" aria-labelledby="tab-chats" hidden={tab !== "chats"}>
+          <ChatsPanel chats={chats} currentId={chat.id} />
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { Badge, Button, Card, Field, Textarea } from "@/components/admin/ui";
 import type { AgentProgress, AgentStreamEvent } from "@/lib/agent/events";
 import { ENTRY_FIELDS } from "@/lib/catalog/fields";
 import type { AgentReview, BookContent } from "@/lib/catalog/schema";
+import { formatDateTime } from "@/lib/format";
 
 const VERDICT = {
   verified: { label: "הרשומה מדויקת", tone: "green" },
@@ -142,7 +143,7 @@ export function AgentPanel({
           ))}
           {running && (
             <li className="flex items-center gap-1.5 text-violet-700">
-              <LoaderCircle className="size-3.5 animate-spin" aria-hidden />
+              <LoaderCircle className="size-3.5 motion-safe:animate-spin" aria-hidden />
               עובד… (זה יכול לקחת דקה-שתיים)
             </li>
           )}
@@ -162,7 +163,7 @@ export function AgentPanel({
             <Badge tone={VERDICT[review.verdict].tone}>{VERDICT[review.verdict].label}</Badge>
             <Badge>{CONFIDENCE[review.confidence]}</Badge>
             <span className="text-xs text-zinc-500">
-              {new Date(review.ranAt).toLocaleString("he-IL", { dateStyle: "short", timeStyle: "short" })}
+              {formatDateTime(review.ranAt)}
             </span>
           </div>
           <p className="text-sm leading-relaxed">{review.summary}</p>

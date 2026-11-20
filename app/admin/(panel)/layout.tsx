@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, ExternalLink, LayoutDashboard, Library, LogOut, MessagesSquare, Plus } from "lucide-react";
+import { BookOpen, ExternalLink, LogOut } from "lucide-react";
 import { logout } from "../actions";
+import { AdminNavLinks } from "./admin-nav";
 
 export const metadata: Metadata = {
   title: { default: "ניהול", template: "%s · ניהול | ספרו לי על זה" },
   robots: { index: false },
 };
-
-const NAV = [
-  { href: "/admin", label: "סקירה", icon: LayoutDashboard },
-  { href: "/admin/books", label: "קטלוג הספרים", icon: Library },
-  { href: "/admin/chat", label: "שיחת מחקר", icon: MessagesSquare },
-  { href: "/admin/books/new", label: "ספר חדש", icon: Plus },
-];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -23,17 +17,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <BookOpen className="size-5" aria-hidden />
           <span className="font-semibold">ספרו לי על זה</span>
         </div>
-        <nav className="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-col lg:pb-0">
-          {NAV.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className="flex items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900"
-            >
-              <Icon className="size-4" aria-hidden />
-              {label}
-            </Link>
-          ))}
+        <nav aria-label="ניווט ניהול" className="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-col lg:pb-0">
+          <AdminNavLinks />
           <Link
             href="/"
             target="_blank"

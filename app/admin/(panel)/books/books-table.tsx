@@ -92,7 +92,8 @@ export function BooksTable({ books, initialStatus }: { books: Book[]; initialSta
         </p>
       )}
 
-      <div className="overflow-x-auto">
+      {/* Focusable and named, so keyboard users can scroll the table when it overflows. */}
+      <div role="region" aria-label="רשימת הספרים" tabIndex={0} className="overflow-x-auto focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-violet-600">
         <table className="w-full min-w-[760px] text-sm">
           <thead className="bg-zinc-50 text-zinc-500">
             <tr>

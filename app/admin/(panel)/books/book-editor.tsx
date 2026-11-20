@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
-import { ArrowDown, ArrowUp, CircleCheck, ExternalLink, MessagesSquare, Plus, Save, Trash, X } from "lucide-react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { ArrowDown, ArrowUp, CircleCheck, ExternalLink, MessagesSquare, Plus, Save, X } from "lucide-react";
 import { deleteBook, saveBook } from "../../actions";
+import { ConfirmDelete } from "@/components/admin/confirm-delete";
 import { Button, Card, Field, Input, Select, Textarea } from "@/components/admin/ui";
+import { formatDateTime } from "@/lib/format";
 import {
   type AgentReview,
   type Book,
@@ -41,16 +43,33 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
   const [review, setReview] = useState<AgentReview | null>(book?.agentReview ?? null);
   const [dirty, setDirty] = useState(false);
   const [message, setMessage] = useState<{ tone: "ok" | "error"; text: string } | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  // The topics error waits until the user has touched the topics or tried to save.
+  const [topicsTouched, setTopicsTouched] = useState(false);
+  const firstTopicRef = useRef<HTMLInputElement>(null);
   const [saving, startSaving] = useTransition();
-  const [deleting, startDeleting] = useTransition();
 
-  // Warn before leaving with unsaved edits.
+  // Warn before leaving with unsaved edits: reloads and closing the tab (beforeunload),
+  // and links inside the app, which navigate without unloading the page.
   useEffect(() => {
     if (!dirty) return;
     const onBeforeUnload = (e: BeforeUnloadEvent) => e.preventDefault();
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as Element | null)?.closest?.("a[href]");
+      if (!(link instanceof HTMLAnchorElement) || link.target === "_blank" || link.origin !== location.origin) return;
+      if (link.pathname === location.pathname && link.search === location.search) return;
+      if (!window.confirm("יש שינויים שלא נשמרו. לעזוב בלי לשמור?")) {
+        // Capture phase on document runs before Next's Link handler, so stopping here cancels the navigation.
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
     window.addEventListener("beforeunload", onBeforeUnload);
-    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+    document.addEventListener("click", onClick, { capture: true });
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      document.removeEventListener("click", onClick, { capture: true });
+    };
   }, [dirty]);
 
   function update(change: (c: BookContent) => BookContent) {
@@ -65,6 +84,11 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
   }
 
   function save() {
+    if (content.topics.length === 0) {
+      setTopicsTouched(true);
+      firstTopicRef.current?.focus();
+      return;
+    }
     startSaving(async () => {
       const result = await saveBook(book?.id ?? null, content, meta);
       if (!result.ok) {
@@ -78,12 +102,10 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
     });
   }
 
-  function remove() {
-    if (!book) return;
-    startDeleting(async () => {
-      const result = await deleteBook(book.id);
-      if (result && !result.ok) setMessage({ tone: "error", text: result.error });
-    });
+  async function remove() {
+    if (!book) return null;
+    const result = await deleteBook(book.id);
+    return result && !result.ok ? result.error : null;
   }
 
   const text = (
@@ -104,8 +126,17 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
     </Field>
   );
 
+  const showTopicsError = topicsTouched && content.topics.length === 0;
+
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+    // A real form: Enter in a field saves, and the browser checks required fields before saving.
+    <form
+      className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]"
+      onSubmit={(e) => {
+        e.preventDefault();
+        save();
+      }}
+    >
       <div className="space-y-6">
         {/* Sticky save bar */}
         <Card className="sticky top-2 z-10 flex flex-wrap items-center justify-between gap-3 p-3">
@@ -133,7 +164,7 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
               </span>
             )}
           </div>
-          <Button variant="primary" onClick={save} disabled={saving || (!dirty && Boolean(book))}>
+          <Button type="submit" variant="primary" disabled={saving || (!dirty && Boolean(book))}>
             <Save className="size-4" aria-hidden />
             {saving ? "שומר…" : "שמירה"}
           </Button>
@@ -152,10 +183,10 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
               />
             </Field>
           </div>
-          <fieldset>
+          <fieldset aria-describedby={showTopicsError ? "topics-error" : undefined}>
             <legend className="mb-1.5 text-sm font-medium text-zinc-800">נושאים</legend>
             <div className="flex flex-wrap gap-2">
-              {TOPIC_IDS.map((t) => {
+              {TOPIC_IDS.map((t, i) => {
                 const on = content.topics.includes(t);
                 return (
                   <label
@@ -165,22 +196,29 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
                     }`}
                   >
                     <input
+                      ref={i === 0 ? firstTopicRef : undefined}
                       type="checkbox"
                       className="sr-only"
                       checked={on}
-                      onChange={() =>
+                      aria-invalid={showTopicsError}
+                      onChange={() => {
+                        setTopicsTouched(true);
                         update((c) => ({
                           ...c,
                           topics: on ? c.topics.filter((x) => x !== t) : ([...c.topics, t] as Topic[]),
-                        }))
-                      }
+                        }));
+                      }}
                     />
                     {TOPICS[t]}
                   </label>
                 );
               })}
             </div>
-            {content.topics.length === 0 && <p className="mt-1 text-xs text-red-600">בחרו לפחות נושא אחד</p>}
+            {showTopicsError && (
+              <p id="topics-error" role="alert" className="mt-1 text-xs text-red-600">
+                בחרו לפחות נושא אחד
+              </p>
+            )}
           </fieldset>
           <Field label="רמת קריאה" className="sm:max-w-xs">
             <Select value={content.level} onChange={(e) => update((c) => ({ ...c, level: e.target.value as BookContent["level"] }))}>
@@ -305,7 +343,7 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
           />
           {book?.verification.updatedAt && (
             <p className="text-xs text-zinc-500">
-              עודכן {new Date(book.verification.updatedAt).toLocaleString("he-IL", { dateStyle: "short", timeStyle: "short" })}
+              עודכן {formatDateTime(book.verification.updatedAt)}
             </p>
           )}
         </Card>
@@ -314,25 +352,16 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
           <Card className="space-y-3 p-5">
             <h2 className="font-semibold text-red-700">מחיקה</h2>
             <p className="text-sm text-zinc-600">כדי להוריד ספר מהאתר בלי למחוק אותו, בטלו את &quot;מפורסם באתר&quot;.</p>
-            {confirmDelete ? (
-              <div className="flex gap-2">
-                <Button variant="danger" onClick={remove} disabled={deleting}>
-                  <Trash className="size-4" aria-hidden />
-                  {deleting ? "מוחק…" : "כן, למחוק לצמיתות"}
-                </Button>
-                <Button variant="ghost" onClick={() => setConfirmDelete(false)}>
-                  ביטול
-                </Button>
-              </div>
-            ) : (
-              <Button onClick={() => setConfirmDelete(true)} className="text-red-700">
-                <Trash className="size-4" aria-hidden />
-                מחיקת הספר
-              </Button>
-            )}
+            <ConfirmDelete
+              label="מחיקת הספר"
+              title={`למחוק את "${book.title}"?`}
+              description="הספר יימחק מהקטלוג לצמיתות, ואי אפשר לשחזר אותו."
+              confirmLabel="כן, למחוק לצמיתות"
+              onConfirm={remove}
+            />
           </Card>
         )}
       </div>
-    </div>
+    </form>
   );
 }

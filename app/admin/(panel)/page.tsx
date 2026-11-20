@@ -43,9 +43,10 @@ async function Dashboard() {
       </div>
 
       <Card className="p-5">
-        <h2 className="mb-1 font-semibold">כיסוי נושאים</h2>
+        <h2 id="coverage-title" className="mb-1 font-semibold">כיסוי נושאים</h2>
         <p className="mb-4 text-sm text-zinc-600">ספרים מפורסמים לכל נושא ורמת קריאה. תא אדום = הורה שיבחר בשילוב הזה לא יקבל ספר מדויק.</p>
-        <div className="overflow-x-auto">
+        {/* Focusable and named, so keyboard users can scroll the table when it overflows. */}
+        <div role="region" aria-labelledby="coverage-title" tabIndex={0} className="overflow-x-auto rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600">
           <table className="w-full min-w-[520px] text-sm">
             <thead>
               <tr className="text-zinc-500">

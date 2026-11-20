@@ -1,4 +1,4 @@
-# ספרו לי על זה (Tell Me About It)
+# ספרו לי על זה (Tale Me About It)
 
 A Hebrew (RTL) bibliotherapy site: parents of children aged 3–5 describe what their child is going through and how used to being read to the child is, and the site recommends picture books with a full analysis and questions to ask while reading. Ported from a Gemini Canvas prototype (kept in `reference/gemini-original.html`).
 

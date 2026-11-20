@@ -77,7 +77,7 @@ const SubmitInputSchema = z.object({
   proposal: ProposalSchema.extend({ author: z.string() }),
 });
 
-const SYSTEM_PROMPT = `You support the editor of "ספרו לי על זה" (Tell Me About It), a Hebrew bibliotherapy app. It recommends picture books to parents of children aged 3-5 who are going through something hard, and gives the parent questions to ask while reading.
+const SYSTEM_PROMPT = `You support the editor of "ספרו לי על זה" (Tale Me About It), a Hebrew bibliotherapy app. It recommends picture books to parents of children aged 3-5 who are going through something hard, and gives the parent questions to ask while reading.
 
 Each catalog entry describes one real, published children's book:
 - title, author (Hebrew)

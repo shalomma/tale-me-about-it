@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { NewBookGuide } from "@/components/admin/guides";
 import { PageHeader } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth/guard";
 import { emptyContent } from "@/lib/catalog/schema";
@@ -7,6 +8,7 @@ import { BookEditor } from "../book-editor";
 export default function NewBookPage() {
   return (
     <>
+      <NewBookGuide />
       <PageHeader
         title="ספר חדש"
         description="הזינו כותרת (ואם אפשר סופר/ת), ותנו לסוכן לחקור ולנסח את הניתוח, או עבדו על הספר בשיחת מחקר. ספר חדש נשמר כטיוטה עד שתפרסמו אותו."

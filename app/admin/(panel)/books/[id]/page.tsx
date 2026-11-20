@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { BookEditorGuide } from "@/components/admin/guides";
 import { PageHeader } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth/guard";
 import { emptyContent } from "@/lib/catalog/schema";
@@ -8,11 +9,14 @@ import { BookEditor } from "../book-editor";
 
 export default function EditBookPage({ params }: PageProps<"/admin/books/[id]">) {
   return (
-    <Suspense fallback={<p className="text-sm text-zinc-500">טוען…</p>}>
-      {params.then(({ id }) => (
-        <Editor id={id} />
-      ))}
-    </Suspense>
+    <>
+      <BookEditorGuide />
+      <Suspense fallback={<p className="text-sm text-zinc-500">טוען…</p>}>
+        {params.then(({ id }) => (
+          <Editor id={id} />
+        ))}
+      </Suspense>
+    </>
   );
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Plus } from "lucide-react";
+import { BooksGuide } from "@/components/admin/guides";
 import { PageHeader } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth/guard";
 import { readCatalog } from "@/lib/catalog/store";
@@ -9,6 +10,7 @@ import { BooksTable } from "./books-table";
 export default function BooksPage({ searchParams }: PageProps<"/admin/books">) {
   return (
     <>
+      <BooksGuide />
       <PageHeader
         title="קטלוג הספרים"
         description="חיפוש, סינון, פרסום והסרה מהאתר. לחצו על ספר כדי לערוך אותו או להריץ עליו את הסוכן."

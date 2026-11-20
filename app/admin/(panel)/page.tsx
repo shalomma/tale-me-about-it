@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { CircleCheck, CircleX } from "lucide-react";
+import { OverviewGuide } from "@/components/admin/guides";
 import { Badge, Card, PageHeader, VerificationBadge } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth/guard";
 import { LEVEL_IDS, LEVELS, TOPIC_IDS, TOPICS, VERIFICATION } from "@/lib/catalog/schema";
@@ -9,6 +10,7 @@ import { readCatalog } from "@/lib/catalog/store";
 export default function DashboardPage() {
   return (
     <>
+      <OverviewGuide />
       <PageHeader title="סקירה" description="מצב הקטלוג, פערים בכיסוי הנושאים, ומה מחכה לבדיקה." />
       <Suspense fallback={<p className="text-sm text-zinc-500">טוען…</p>}>
         <Dashboard />

@@ -9,7 +9,7 @@ export default function NewBookPage() {
     <>
       <PageHeader
         title="ספר חדש"
-        description="הזינו כותרת (ואם אפשר סופר/ת), ותנו לסוכן לחקור ולנסח את הניתוח. ספר חדש נשמר כטיוטה עד שתפרסמו אותו."
+        description="הזינו כותרת (ואם אפשר סופר/ת), ותנו לסוכן לחקור ולנסח את הניתוח, או עבדו על הספר בשיחת מחקר. ספר חדש נשמר כטיוטה עד שתפרסמו אותו."
       />
       <Suspense fallback={<p className="text-sm text-zinc-500">טוען…</p>}>
         <NewEditor />

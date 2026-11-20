@@ -2,18 +2,18 @@ import "server-only";
 
 import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
-import {
-  type AgentReview,
-  type BookContent,
-  LEVEL_IDS,
-  ProposalSchema,
-  LEVELS,
-  TOPIC_IDS,
-  TOPICS,
-} from "@/lib/catalog/schema";
+import { type AgentReview, type BookContent, ProposalSchema } from "@/lib/catalog/schema";
 import type { AgentProgress } from "./events";
+import { AGENT_MODEL, getAnthropic } from "./client";
+import {
+  ACCURACY_RULES,
+  CATALOG_GUIDE,
+  PROPOSAL_JSON_SCHEMA,
+  standingInstructionsBlock,
+  strictObject,
+} from "./prompt";
+import { readAgentSettings } from "./settings";
 
-export const AGENT_MODEL = "claude-opus-5-5";
 const SUBMIT_TOOL_NAME = "submit_book_review";
 const MAX_TURNS = 8;
 
@@ -21,21 +21,13 @@ export type AgentMode = "verify" | "draft";
 
 export class AgentError extends Error {}
 
-const str = { type: "string" } as const;
-const obj = (properties: Record<string, unknown>) => ({
-  type: "object",
-  properties,
-  required: Object.keys(properties),
-  additionalProperties: false,
-});
-
 /** The agent's only way to finish: one call with the whole review. */
 const submitTool: Anthropic.Beta.Messages.BetaTool = {
   name: SUBMIT_TOOL_NAME,
   description:
     "Submit the final review of the book. Call this exactly once, after researching, as your last action.",
   strict: true,
-  input_schema: obj({
+  input_schema: strictObject({
     verdict: {
       type: "string",
       enum: ["verified", "needs_changes", "not_found"],
@@ -43,28 +35,18 @@ const submitTool: Anthropic.Beta.Messages.BetaTool = {
         "verified: the book exists and the entry is accurate. needs_changes: the book exists but the entry has errors. not_found: you could not confirm the book exists as described.",
     },
     confidence: { type: "string", enum: ["high", "medium", "low"] },
-    summary: { ...str, description: "2-4 sentences in Hebrew for the editor: what you checked and what you found." },
+    summary: { type: "string", description: "2-4 sentences in Hebrew for the editor: what you checked and what you found." },
     issues: {
       type: "array",
-      items: str,
+      items: { type: "string" },
       description: "Each concrete problem with the current entry, in Hebrew. Empty if none.",
     },
     sources: {
       type: "array",
-      items: obj({ title: str, url: str }),
+      items: strictObject({ title: { type: "string" }, url: { type: "string" } }),
       description: "Pages you actually read that support your findings.",
     },
-    proposal: obj({
-      title: str,
-      author: { ...str, description: "Author name in Hebrew, or an empty string if unknown." },
-      topics: { type: "array", items: { type: "string", enum: TOPIC_IDS } },
-      level: { type: "string", enum: LEVEL_IDS },
-      linguistic: obj({ rhyme: str, vocabulary: str, typography: str }),
-      thematic: obj({ problem: str, motive: str, twist: str }),
-      psych: obj({ innerVoice: str, copingWithFear: str, unexpectedOutcome: str }),
-      visuals: str,
-      mediation: { type: "array", items: obj({ question: str, explanation: str }) },
-    }),
+    proposal: PROPOSAL_JSON_SCHEMA,
   }) as Anthropic.Beta.Messages.BetaTool.InputSchema,
 };
 
@@ -77,24 +59,13 @@ const SubmitInputSchema = z.object({
   proposal: ProposalSchema.extend({ author: z.string() }),
 });
 
-const SYSTEM_PROMPT = `You support the editor of "ספרו לי על זה" (Tale Me About It), a Hebrew bibliotherapy app. It recommends picture books to parents of children aged 3-5 who are going through something hard, and gives the parent questions to ask while reading.
+/** Fixed part of the system prompt; the editor's standing instructions are appended per run. */
+export const BOOK_AGENT_SYSTEM_PROMPT = `You support the editor of a children's-book catalog.
 
-Each catalog entry describes one real, published children's book:
-- title, author (Hebrew)
-- topics: which of these situations the book genuinely helps with: ${TOPIC_IDS.map((t) => `${t} (${TOPICS[t]})`).join(", ")}
-- level: how much listening experience the child needs: ${LEVEL_IDS.map((l) => `${l} (${LEVELS[l].book})`).join(", ")}
-- linguistic: rhyme and meter, vocabulary, typography
-- thematic: the problem, the motive, the twist
-- psych: inner voice, coping with fear, unexpected outcome
-- visuals: what the illustrations do
-- mediation: about five questions for the parent to ask, each with a short explanation of why it helps
+${CATALOG_GUIDE}
 
-Your job is accuracy. A wrong book in front of a frightened child is worse than no book.
-- Use web search to confirm the book exists, who wrote it, and what actually happens in it. Hebrew sources (publisher pages, the National Library of Israel, Simania, book stores) are usually best for Hebrew titles; translated books also have sources in their original language.
-- Never invent plot details. If you cannot confirm something, say so in issues and keep the related text general rather than specific.
-- Only list a topic if the book's real story addresses it. If an entry claims a topic the plot doesn't support, flag it. If the book fits none of the topics, return an empty topics list and explain in issues which situations it does suit.
-- Write all proposal text in natural Hebrew, in the warm, professional style of the existing entries. Keep accurate existing wording rather than rewriting it for its own sake.
-- Mediation questions are for a parent talking to a 3-5 year old: short, concrete, open-ended, never leading or frightening.
+${ACCURACY_RULES}
+- In the review, list every problem with the entry in issues, including topics the plot doesn't support. If the book fits none of the topics, return an empty topics list and explain in issues which situations it does suit.
 
 Finish by calling ${SUBMIT_TOOL_NAME} once with your complete review.`;
 
@@ -114,13 +85,6 @@ Author: ${content.author ?? "(unknown)"}
 Topics the editor has in mind: ${content.topics.join(", ")}`;
 }
 
-let client: Anthropic | null = null;
-function getClient() {
-  // Reads ANTHROPIC_API_KEY from the environment.
-  client ??= new Anthropic();
-  return client;
-}
-
 export async function runBookAgent(opts: {
   mode: AgentMode;
   content: BookContent;
@@ -133,11 +97,13 @@ export async function runBookAgent(opts: {
     { role: "user", content: userPrompt(mode, content, notes) },
   ];
   let nudged = false;
+  const { instructions } = await readAgentSettings();
+  const system = BOOK_AGENT_SYSTEM_PROMPT + standingInstructionsBlock(instructions);
 
   onProgress?.({ kind: "status", text: "הסוכן התחיל לעבוד" });
 
   for (let turn = 0; turn < MAX_TURNS; turn++) {
-    const stream = getClient().beta.messages.stream(
+    const stream = getAnthropic().beta.messages.stream(
       {
         model: AGENT_MODEL,
         max_tokens: 64000,
@@ -145,7 +111,7 @@ export async function runBookAgent(opts: {
         // If a safety classifier declines, the API retries on a fallback model in the same call.
         betas: ["server-side-fallback-2026-07-01"],
         fallbacks: "default",
-        system: SYSTEM_PROMPT,
+        system,
         // The basic web search variant: the newer web_search_20260209 filters results with
         // code execution, which this organization (HIPAA-configured) doesn't allow.
         tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8 }, submitTool],

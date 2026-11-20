@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { Bot, ExternalLink, Globe, LoaderCircle, Search, ShieldCheck, Sparkles, TriangleExclamationPoint } from "lucide-react";
 import { Badge, Button, Card, Field, Textarea } from "@/components/admin/ui";
 import type { AgentProgress, AgentStreamEvent } from "@/lib/agent/events";
-import { type AgentReview, type BookContent, LEVELS, TOPICS } from "@/lib/catalog/schema";
+import { ENTRY_FIELDS } from "@/lib/catalog/fields";
+import type { AgentReview, BookContent } from "@/lib/catalog/schema";
 
 const VERDICT = {
   verified: { label: "הרשומה מדויקת", tone: "green" },
@@ -12,25 +13,6 @@ const VERDICT = {
   not_found: { label: "לא הצלחתי לאמת שהספר קיים", tone: "red" },
 } as const;
 const CONFIDENCE = { high: "ביטחון גבוה", medium: "ביטחון בינוני", low: "ביטחון נמוך" } as const;
-
-/** Fields shown in the "what would change" list, with how to read them from content. */
-const DIFF_FIELDS: [string, (c: BookContent) => string][] = [
-  ["כותרת", (c) => c.title],
-  ["סופר/ת", (c) => c.author ?? ""],
-  ["נושאים", (c) => c.topics.map((t) => TOPICS[t]).join(", ")],
-  ["רמת קריאה", (c) => LEVELS[c.level].book],
-  ["חריזה ומשקל", (c) => c.linguistic.rhyme],
-  ["אוצר מילים", (c) => c.linguistic.vocabulary],
-  ["טיפוגרפיה", (c) => c.linguistic.typography],
-  ["הבעיה", (c) => c.thematic.problem],
-  ["המניע", (c) => c.thematic.motive],
-  ["הטוויסט", (c) => c.thematic.twist],
-  ["קול פנימי", (c) => c.psych.innerVoice],
-  ["התמודדות עם פחד", (c) => c.psych.copingWithFear],
-  ["תוצאה לא צפויה", (c) => c.psych.unexpectedOutcome],
-  ["איורים", (c) => c.visuals],
-  ["שאלות להורה", (c) => c.mediation.map((m) => `${m.question} — ${m.explanation}`).join("\n")],
-];
 
 export function AgentPanel({
   bookId,
@@ -96,7 +78,7 @@ export function AgentPanel({
   }
 
   const changed = review
-    ? DIFF_FIELDS.filter(([, read]) => read(review.proposal).trim() !== read(content).trim())
+    ? ENTRY_FIELDS.filter(([, read]) => read(review.proposal).trim() !== read(content).trim())
     : [];
 
   return (

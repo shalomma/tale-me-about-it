@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-import { ArrowDown, ArrowUp, CircleCheck, ExternalLink, Plus, Save, Trash, X } from "lucide-react";
+import { ArrowDown, ArrowUp, CircleCheck, ExternalLink, MessagesSquare, Plus, Save, Trash, X } from "lucide-react";
 import { deleteBook, saveBook } from "../../actions";
 import { Button, Card, Field, Input, Select, Textarea } from "@/components/admin/ui";
 import {
@@ -261,6 +261,18 @@ export function BookEditor({ book, initial }: { book: Book | null; initial: Book
       </div>
 
       <div className="space-y-6">
+        {book && (
+          <Link
+            href={`/admin/chat?book=${book.id}`}
+            className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-900 hover:bg-violet-100"
+          >
+            <MessagesSquare className="size-5 shrink-0 text-violet-600" aria-hidden />
+            <span>
+              <span className="block font-medium">שיחת מחקר על הספר</span>
+              <span className="text-violet-800/80">לעבוד על הרשומה יחד עם הסוכן, בשיחה</span>
+            </span>
+          </Link>
+        )}
         <AgentPanel
           bookId={book?.id ?? null}
           content={content}

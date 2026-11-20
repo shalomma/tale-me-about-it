@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { writeAgentSettings } from "@/lib/agent/settings";
 import { requireAdmin } from "@/lib/auth/guard";
 import {
   adminConfigured,
@@ -12,9 +13,12 @@ import {
   SESSION_COOKIE,
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth/session";
+import { newBookId } from "@/lib/catalog/ids";
 import { CATALOG_TAG } from "@/lib/catalog/queries";
 import { type Book, BookContentSchema, VERIFICATION_IDS } from "@/lib/catalog/schema";
 import { updateCatalog } from "@/lib/catalog/store";
+import { commitDraft, commitErrorMessage } from "@/lib/chat/commit";
+import { getChat, removeChat, saveChat } from "@/lib/chat/store";
 
 export type ActionResult<T = undefined> =
   | ({ ok: true } & (T extends undefined ? object : { data: T }))
@@ -66,10 +70,6 @@ const MetaSchema = z.object({
   verification: z.object({ status: z.enum(VERIFICATION_IDS), note: z.string() }),
 });
 
-function newId() {
-  return `book-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-}
-
 export async function saveBook(
   id: string | null,
   content: unknown,
@@ -91,7 +91,7 @@ export async function saveBook(
         existing.verification.note !== parsedMeta.verification.note;
 
       const book: Book = {
-        ...(existing ?? { id: newId(), agentReview: null, createdAt: now }),
+        ...(existing ?? { id: newBookId(), agentReview: null, createdAt: now }),
         ...parsedContent,
         published: parsedMeta.published,
         verification: {
@@ -142,4 +142,43 @@ export async function deleteBook(id: string): Promise<ActionResult> {
     return failure(error);
   }
   redirect("/admin/books");
+}
+
+// --- Research chat -----------------------------------------------------------
+
+export async function saveAgentInstructions(instructions: string): Promise<ActionResult<{ updatedAt: string | null }>> {
+  await requireAdmin();
+  try {
+    const settings = await writeAgentSettings(z.string().max(8000).parse(instructions));
+    return { ok: true, data: { updatedAt: settings.updatedAt } };
+  } catch (error) {
+    return failure(error);
+  }
+}
+
+/** The draft panel's save button: same as asking the agent to save. */
+export async function saveChatDraft(
+  chatId: string,
+): Promise<ActionResult<{ bookId: string; created: boolean; savedAt: string | null }>> {
+  await requireAdmin();
+  try {
+    const chat = await getChat(chatId);
+    if (!chat) throw new Error("השיחה לא נמצאה");
+    const saved = await commitDraft(chat);
+    await saveChat(chat);
+    updateTag(CATALOG_TAG);
+    return { ok: true, data: { bookId: saved.bookId, created: saved.created, savedAt: chat.savedAt } };
+  } catch (error) {
+    return { ok: false, error: commitErrorMessage(error) };
+  }
+}
+
+export async function deleteChat(id: string): Promise<ActionResult> {
+  await requireAdmin();
+  try {
+    await removeChat(id);
+  } catch (error) {
+    return failure(error);
+  }
+  redirect("/admin/chat");
 }

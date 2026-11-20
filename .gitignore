@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 !.env.example
+
+# research chats saved locally by the admin chat (Blob in production)
+/data/chats/

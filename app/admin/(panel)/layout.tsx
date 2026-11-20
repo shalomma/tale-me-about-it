@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, ExternalLink, LayoutDashboard, Library, LogOut, Plus } from "lucide-react";
+import { BookOpen, ExternalLink, LayoutDashboard, Library, LogOut, MessagesSquare, Plus } from "lucide-react";
 import { logout } from "../actions";
 
 export const metadata: Metadata = {
@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 const NAV = [
   { href: "/admin", label: "סקירה", icon: LayoutDashboard },
   { href: "/admin/books", label: "קטלוג הספרים", icon: Library },
+  { href: "/admin/chat", label: "שיחת מחקר", icon: MessagesSquare },
   { href: "/admin/books/new", label: "ספר חדש", icon: Plus },
 ];
 

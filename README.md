@@ -26,6 +26,8 @@ npm run dev                  # http://localhost:3000, admin at /admin
 3. Set `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `ANTHROPIC_API_KEY` in Environment Variables.
 4. Deploy. The first admin save copies the catalog into Blob; from then on Blob is the source of truth, and `data/books.json` is only the initial seed.
 
+Deploys run from GitHub Actions (`.github/workflows/ci.yml`), not Vercel's GitHub app: every push and PR is linted and type-checked, pushes to `main` deploy to production, and PRs get a preview URL. The workflow needs a `VERCEL_TOKEN` repository secret plus the `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` repository variables.
+
 ## How the pieces fit
 
 | Path | What it does |

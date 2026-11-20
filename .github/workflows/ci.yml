@@ -1,0 +1,60 @@
+# Lint and type-check every push and PR, then deploy with the Vercel CLI:
+# pushes to main go to production, PRs from this repo get a preview URL.
+#
+# Needs in GitHub → Settings → Secrets and variables → Actions:
+#   secret   VERCEL_TOKEN       (vercel.com/account/settings/tokens, scope: tamloot)
+#   variable VERCEL_ORG_ID      (team id, also in .vercel/project.json as orgId)
+#   variable VERCEL_PROJECT_ID  (also in .vercel/project.json as projectId)
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - name: Type-check
+        run: npx next typegen && npx tsc --noEmit
+
+  deploy:
+    needs: check
+    # Fork PRs don't get secrets, so only deploy pushes and same-repo PRs.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Vercel settings
+        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
+        run: |
+          echo "::error::Set the VERCEL_TOKEN secret and the VERCEL_ORG_ID / VERCEL_PROJECT_ID variables (see the top of .github/workflows/ci.yml)."
+          exit 1
+      - run: npm install --global vercel@63.1.0
+      # Vercel builds remotely, with the project's own environment variables.
+      - name: Deploy to production
+        if: github.event_name == 'push'
+        run: |
+          url=$(vercel deploy --prod --yes --token "$VERCEL_TOKEN")
+          echo "Production: $url" >> "$GITHUB_STEP_SUMMARY"
+      - name: Deploy preview
+        if: github.event_name == 'pull_request'
+        run: |
+          url=$(vercel deploy --yes --token "$VERCEL_TOKEN")
+          echo "Preview: $url" >> "$GITHUB_STEP_SUMMARY"

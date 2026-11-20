@@ -2,6 +2,7 @@ import "server-only";
 
 import { z } from "zod";
 import { readJson, writeJson } from "@/lib/storage/json-store";
+import { DEFAULT_AGENT_INSTRUCTIONS } from "./default-instructions";
 
 const SETTINGS_PATH = "settings/agent.json";
 
@@ -15,7 +16,8 @@ export type AgentSettings = z.infer<typeof AgentSettingsSchema>;
 
 export async function readAgentSettings(): Promise<AgentSettings> {
   const parsed = AgentSettingsSchema.safeParse(await readJson(SETTINGS_PATH));
-  return parsed.success ? parsed.data : { instructions: "", updatedAt: null };
+  // Until the editor saves their own, the agents follow the default style guide.
+  return parsed.success ? parsed.data : { instructions: DEFAULT_AGENT_INSTRUCTIONS, updatedAt: null };
 }
 
 export async function writeAgentSettings(instructions: string): Promise<AgentSettings> {

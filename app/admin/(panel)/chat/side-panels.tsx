@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
-import { BookPlus, CircleCheck, ExternalLink, Plus, Save, Trash } from "lucide-react";
+import { useLayoutEffect, useRef, useState, useTransition } from "react";
+import { BookPlus, CircleCheck, ExternalLink, Plus, RotateCcw, Save, Trash } from "lucide-react";
 import { deleteChat, saveAgentInstructions, saveChatDraft } from "../../actions";
 import { Badge, Button, Card, Textarea } from "@/components/admin/ui";
+import { DEFAULT_AGENT_INSTRUCTIONS } from "@/lib/agent/default-instructions";
 import type { AgentSettings } from "@/lib/agent/settings";
 import { ENTRY_FIELDS } from "@/lib/catalog/fields";
 import type { ChatSummary, Draft } from "@/lib/chat/types";
@@ -138,9 +139,18 @@ export function DraftPanel({
 export function PromptPanel({ settings, basePrompt }: { settings: AgentSettings; basePrompt: string }) {
   const [text, setText] = useState(settings.instructions);
   const [saved, setSaved] = useState(settings);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, startSaving] = useTransition();
   const dirty = text.trim() !== saved.instructions;
+
+  // Grow the textarea to fit its text, so the whole instructions are visible without scrolling.
+  useLayoutEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight + el.offsetHeight - el.clientHeight}px`;
+  }, [text]);
 
   function save() {
     setError(null);
@@ -156,14 +166,15 @@ export function PromptPanel({ settings, basePrompt }: { settings: AgentSettings;
       <div>
         <h2 className="font-semibold">הנחיות קבועות</h2>
         <p className="mt-1 text-sm text-zinc-600">
-          מה שתכתבו כאן נשלח לסוכן בכל הודעה בשיחה ובכל בדיקת עובדות, כך שלא צריך לחזור על אותן בקשות. אפשר לכתוב בעברית.
+          מה שתכתבו כאן נשלח לסוכן בכל הודעה בשיחה ובכל בדיקת עובדות, כך שלא צריך לחזור על אותן בקשות. אפשר לכתוב בעברית. ברירת המחדל היא מדריך סגנון שנגזר מניתוחי הספרים הקיימים בקטלוג.
         </p>
       </div>
       <Textarea
+        ref={textareaRef}
         value={text}
         onChange={(e) => setText(e.target.value)}
         maxLength={8000}
-        className="min-h-48"
+        className="min-h-48 resize-none overflow-hidden"
         aria-label="הנחיות קבועות לסוכן"
         placeholder={"למשל:\n- תמיד חמש שאלות תיווך, לא יותר\n- העדיפו את אתר ההוצאה ואת הספרייה הלאומית כמקורות\n- בלי המילה \"טראומה\" בטקסט להורים"}
       />
@@ -172,6 +183,12 @@ export function PromptPanel({ settings, basePrompt }: { settings: AgentSettings;
           <Save className="size-4" aria-hidden />
           {saving ? "שומר…" : "שמירת ההנחיות"}
         </Button>
+        {text.trim() !== DEFAULT_AGENT_INSTRUCTIONS && (
+          <Button onClick={() => setText(DEFAULT_AGENT_INSTRUCTIONS)} disabled={saving}>
+            <RotateCcw className="size-4" aria-hidden />
+            שחזור ברירת המחדל
+          </Button>
+        )}
         {dirty ? (
           <span className="text-xs text-amber-700">לא נשמר</span>
         ) : (
